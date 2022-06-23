@@ -1,0 +1,41 @@
+{
+    "test method": {
+        "prefix": "aaaTest",
+        "body": [
+          "  test(",
+          "    '''${1:should }''',",
+          "    () {",
+          "      //arange",
+          "       ${2}",
+          "      //act",
+          "       ${3}",
+          "      //assert",
+          "       ${4}",
+          "    },",
+          "  );"
+        ],
+        "description": "test method"
+      },
+      "When.thenAnswer": {
+        "prefix": "wThenAns",
+        "body": [
+          " when(()=>${1:})",
+          "        .thenAnswer((_) =>${2:} );"
+        ],
+        "description": "When.thenAnswer"
+      },
+      "When.thenReturn": {
+        "prefix": "wThenReturn",
+        "body": [
+          "when(()=>${1:}).thenReturn(${2:});"
+        ],
+        "description": "When.thenReturn"
+      },
+      "When.thenThrow": {
+        "prefix": "wThenThrow",
+        "body": [
+          "when(()=>${1:}).thenThrow(${2:});"
+        ],
+        "description": "When.thenThrow"
+      }
+}

@@ -1,0 +1,9 @@
+const appName = 'Youth HR Management';
+const login = 'Login';
+const loginDescription = 'See Employees & Manage Your Organization';
+const loginTF1 = 'Name*';
+const loginTF2 = 'Password*';
+const needLoginSupport = 'Need Support?';
+const clickHere = 'Click Here';
+const dashboard = 'Dashboard';
+const eCategories = 'Employee Categories';
