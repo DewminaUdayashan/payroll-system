@@ -17,6 +17,8 @@ class LoginRepositoryImpl extends LoginRepository {
   Future<Either<Failure, SystemUser>> login(Credentials credentials) async {
     try {
       return Right(await _loginDataSource.login(credentials));
+    } on LoginFailed catch (e) {
+      return Left(LoginFaiure(code: e.code, message: e.message));
     } on ServerException catch (e) {
       return Left(ApiFailure(code: e.code, message: e.message));
     }

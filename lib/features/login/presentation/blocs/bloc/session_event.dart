@@ -6,3 +6,13 @@ abstract class SessionEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class TryToLogin extends SessionEvent {
+  final Credentials credentials;
+  final BuildContext context;
+
+  const TryToLogin({required this.credentials, required this.context});
+
+  @override
+  List<Object> get props => [credentials];
+}

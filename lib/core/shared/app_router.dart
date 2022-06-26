@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:payroll_system/features/system/presentation/pages/system.dart';
 
 import '../../features/login/presentation/screens/login.dart';
 
@@ -7,6 +8,8 @@ class AppRouter {
     switch (settings.name) {
       case '/login':
         return MaterialPageRoute(builder: (_) => const Login());
+      case '/system':
+        return MaterialPageRoute(builder: (_) => const System());
       // case '/login':
       //   return MaterialPageRoute(builder: (_) => const Login());
       // case '/splash':
@@ -19,7 +22,7 @@ class AppRouter {
 
 enum Routes {
   login,
-  dashboard,
+  system,
 }
 
 extension RouteName on Routes {
@@ -27,8 +30,8 @@ extension RouteName on Routes {
     switch (this) {
       case Routes.login:
         return '/login';
-      case Routes.dashboard:
-        return '/dashboard';
+      case Routes.system:
+        return '/system';
       default:
         return '';
     }

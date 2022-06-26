@@ -22,3 +22,21 @@ class ApiFailure extends Failure {
   @override
   List<Object?> get props => [code, message];
 }
+
+class LoginFaiure extends Failure {
+  final int code;
+  final String message;
+
+  LoginFaiure({required this.code, required this.message});
+  @override
+  List<Object?> get props => [code, message];
+}
+
+class FetchFaiure extends Failure {
+  final int code;
+  final String message;
+
+  FetchFaiure({required this.code, required this.message});
+  @override
+  List<Object?> get props => [code, message];
+}
