@@ -3,16 +3,21 @@ import 'dart:io';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:payroll_system/core/network/api.dart';
 import 'package:payroll_system/features/login/data/datasources/impl/login_data_source_impl.dart';
 import 'package:payroll_system/features/login/data/repositories/login_repository_impl.dart';
 import 'package:payroll_system/features/login/domain/usecases/login.dart';
 import 'package:payroll_system/features/login/presentation/blocs/bloc/session_bloc.dart';
+import 'package:payroll_system/features/system/presentation/blocs/system_tab/system_tab_cubit.dart';
 
 import 'core/shared/app_router.dart';
 import 'core/shared/app_theme.dart';
 import 'core/shared/strings.dart';
 import 'core/utils/system_interaction_listener.dart';
 import 'features/number_trivia/presentation/shared/bloc_observer.dart';
+
+const minSize = Size(1280, 720);
 
 Future<void> main() async {
   BlocOverrides.runZoned(
@@ -22,12 +27,11 @@ Future<void> main() async {
   if (Platform.isWindows) {
     doWhenWindowReady(() {
       final win = appWindow;
-      const minSize = Size(1280, 720);
       const initialSize = minSize;
       win.minSize = minSize;
       win.size = initialSize;
       win.alignment = Alignment.center;
-      win.title = "Youth HRM";
+      win.title = "Payroll Management";
       win.show();
     });
   }
@@ -43,28 +47,40 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => SessionBloc(
-            Login(
-              LoginRepositoryImpl(
-                LoginDataSourceImpl(),
+    return ScreenUtilInit(
+      designSize: minSize,
+      minTextAdapt: true,
+      builder: (context, child) {
+        return RepositoryProvider(
+          create: (context) => API(),
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => SessionBloc(
+                  Login(
+                    LoginRepositoryImpl(
+                      LoginDataSourceImpl(),
+                    ),
+                  ),
+                ),
+              ),
+              BlocProvider(
+                create: (context) => SystemTabCubit(),
+              ),
+            ],
+            child: SystemInteractionListner(
+              onInteraction: () {},
+              child: MaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: appName,
+                theme: appTheme,
+                onGenerateRoute: AppRouter().onGenerateRoute,
+                initialRoute: Routes.login.name,
               ),
             ),
           ),
-        ),
-      ],
-      child: SystemInteractionListner(
-        onInteraction: () {},
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: appName,
-          theme: appTheme,
-          onGenerateRoute: AppRouter().onGenerateRoute,
-          initialRoute: Routes.login.name,
-        ),
-      ),
+        );
+      },
     );
   }
 }

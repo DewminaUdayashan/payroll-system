@@ -25,9 +25,9 @@ class SystemUserModel extends SystemUser {
     return SystemUserModel(
       id: map['id'] as int,
       name: map['name'] as String,
-      lastLogin: DateTime.fromMillisecondsSinceEpoch(map['lastLogin'] as int),
+      lastLogin: DateTime.parse(map['lastLogin'] ?? DateTime.now().toString()),
       roleId: map['roleId'] as int,
-      token: map['token'] != null ? map['token'] as String : null,
+      token: map['accessToken'] != null ? map['accessToken'] as String : null,
       refreshToken:
           map['refreshToken'] != null ? map['refreshToken'] as String : null,
     );

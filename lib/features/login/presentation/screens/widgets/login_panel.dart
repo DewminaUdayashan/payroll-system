@@ -1,16 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:payroll_system/features/login/domain/entities/credentials.dart';
 
 import '../../../../../core/shared/border_radiuses.dart';
 import '../../../../../core/shared/paddings.dart';
 import '../../../../../core/shared/strings.dart';
+import '../../blocs/bloc/session_bloc.dart';
 
-class LoginPanel extends StatelessWidget {
+class LoginPanel extends StatefulWidget {
   const LoginPanel({Key? key}) : super(key: key);
+
+  @override
+  State<LoginPanel> createState() => _LoginPanelState();
+}
+
+class _LoginPanelState extends State<LoginPanel> {
+  final formKey = GlobalKey<FormState>();
+  final name = TextEditingController(text: 'admin');
+  final password = TextEditingController(text: 'admin');
+
+  @override
+  void dispose() {
+    name.dispose();
+    password.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
-    final name = TextEditingController();
-    final password = TextEditingController();
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 40,
@@ -22,7 +39,7 @@ class LoginPanel extends StatelessWidget {
           children: [
             Text(
               login,
-              style: Theme.of(context).textTheme.displaySmall,
+              style: Theme.of(context).textTheme.headlineLarge,
             ),
             const SizedBox(
               height: 8,
@@ -35,57 +52,52 @@ class LoginPanel extends StatelessWidget {
             const SizedBox(
               height: 30,
             ),
-            Material(
-              borderRadius: BorderRadius.circular(10),
-              elevation: 4,
-              color: Colors.white,
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.transparent,
-                ),
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TextFormField(
-                        controller: name,
-                        decoration: InputDecoration(
-                          hintText: 'Enter user name',
-                          label: Text(
-                            'User Name',
-                            style: Theme.of(context).textTheme.labelLarge,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                          contentPadding: loginTFPadding,
-                        ),
+            Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextFormField(
+                    controller: name,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.person_outline_rounded),
+                      hintText: 'Enter user name',
+                      label: Text(
+                        'User Name',
+                        style: Theme.of(context).textTheme.labelLarge,
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      TextFormField(
-                        controller: password,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          hintText: 'Enter password',
-                          label: Text(
-                            'Password',
-                            style: Theme.of(context).textTheme.labelLarge,
-                          ),
-                          contentPadding: loginTFPadding,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                        ),
-                      ),
-                    ],
+                      contentPadding: loginTFPadding,
+                    ),
+                    validator: (String? str) {
+                      if (str == null || str.isEmpty) {
+                        return 'Please enter user name';
+                      }
+                      return null;
+                    },
                   ),
-                ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    controller: password,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.lock_outline_rounded),
+                      hintText: 'Enter password',
+                      label: Text(
+                        'Password',
+                        style: Theme.of(context).textTheme.labelLarge,
+                      ),
+                      contentPadding: loginTFPadding,
+                    ),
+                    validator: (String? str) {
+                      if (str == null || str.isEmpty) {
+                        return 'Please enter password';
+                      }
+                      return null;
+                    },
+                  ),
+                ],
               ),
             ),
             const SizedBox(
@@ -100,19 +112,30 @@ class LoginPanel extends StatelessWidget {
                   splashColor: Colors.blueAccent,
                   highlightColor: Colors.transparent,
                   onTap: () {
-                    if (formKey.currentState!.validate()) {}
+                    if (formKey.currentState!.validate()) {
+                      context.read<SessionBloc>().add(
+                            TryToLogin(
+                              credentials: Credentials(
+                                name: name.text,
+                                password: String.fromCharCodes(
+                                    password.text.codeUnits),
+                              ),
+                              context: context,
+                            ),
+                          );
+                    }
                   },
                   child: Ink(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 100, vertical: 15),
                     decoration: BoxDecoration(
                       borderRadius: hundredBoarderRadius,
-                      color: Theme.of(context).canvasColor,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                     child: Text(
                       login,
                       style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.onPrimary,
                           ),
                     ),
                   ),
