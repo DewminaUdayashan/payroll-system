@@ -71,7 +71,6 @@ class DepartmentsCubit extends Cubit<DepartmentsState> {
     _departments.update(department).then(
           (result) => result.fold(
             (failure) {
-              print(failure);
               Navigator.pop(context);
               if (failure is FetchFaiure) {
                 NotificationHelper.error(

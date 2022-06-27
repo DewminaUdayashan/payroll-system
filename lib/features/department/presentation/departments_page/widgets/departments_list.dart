@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../blocs/departments_cubit/departments_cubit.dart';
+import '../../blocs/departments_cubit/departments_cubit.dart';
 import 'add_department_dialog.dart';
 
 class DepartmentsList extends StatelessWidget {
@@ -22,12 +22,12 @@ class DepartmentsList extends StatelessWidget {
           itemBuilder: (context, index) {
             return MouseRegion(
               cursor: SystemMouseCursors.click,
-              hitTestBehavior: HitTestBehavior.deferToChild,
               child: ListTile(
                 mouseCursor: MouseCursor.defer,
                 hoverColor: Theme.of(context).colorScheme.secondaryContainer,
                 enableFeedback: true,
                 autofocus: true,
+                onTap: () {},
                 title: Row(
                   children: [
                     Expanded(

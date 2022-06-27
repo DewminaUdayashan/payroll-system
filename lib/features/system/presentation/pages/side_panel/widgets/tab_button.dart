@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payroll_system/features/system/presentation/blocs/system_tab/system_tab_cubit.dart';
 import 'package:payroll_system/features/system/presentation/shared/system_enums.dart';
 
+import '../../../../../department/presentation/blocs/department_page_controller_cubit/department_page_controller_cubit.dart';
+
 class TabButton extends StatelessWidget {
   const TabButton({
     Key? key,
@@ -24,7 +26,18 @@ class TabButton extends StatelessWidget {
               child: Material(
                 type: MaterialType.transparency,
                 child: InkWell(
-                  onTap: () => context.read<SystemTabCubit>().onTabChanged(tab),
+                  onTap: () {
+                    context.read<SystemTabCubit>().onTabChanged(tab);
+
+                    /// initially, the department loads first page on its `PageView`.
+                    /// we animate page only if it is alredy navigated to the second page
+
+                    if (tab == SystemTab.departments) {
+                      context
+                          .read<DepartmentPageControllerCubit>()
+                          .animatePage(0);
+                    }
+                  },
                   hoverColor: Theme.of(context).colorScheme.primaryContainer,
                   child: Ink(
                     color: state.selectedTab == tab
@@ -65,11 +78,16 @@ class TabButton extends StatelessWidget {
                               child: Material(
                                 type: MaterialType.transparency,
                                 child: InkWell(
-                                  onTap: () => context
-                                      .read<SystemTabCubit>()
-                                      .onSecondaryTabChanged(
-                                        SecondaryTab.designation,
-                                      ),
+                                  onTap: () {
+                                    context
+                                        .read<SystemTabCubit>()
+                                        .onSecondaryTabChanged(
+                                          SecondaryTab.designation,
+                                        );
+                                    context
+                                        .read<DepartmentPageControllerCubit>()
+                                        .animatePage(1);
+                                  },
                                   hoverColor:
                                       Theme.of(context).colorScheme.secondary,
                                   child: Ink(

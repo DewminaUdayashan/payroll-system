@@ -6,8 +6,9 @@ import 'package:payroll_system/features/department/presentation/blocs/department
 class DepartmentSearchField extends StatelessWidget {
   const DepartmentSearchField({
     Key? key,
+    this.isDesignationView = false,
   }) : super(key: key);
-
+  final bool isDesignationView;
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -19,13 +20,15 @@ class DepartmentSearchField extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: TextField(
             onChanged: context.read<DepartmentsCubit>().searchDepartment,
-            decoration: const InputDecoration(
-              hintText: 'Search Department',
-              border: OutlineInputBorder(),
-              focusedBorder: OutlineInputBorder(
+            decoration: InputDecoration(
+              hintText: isDesignationView
+                  ? 'Search Designations'
+                  : 'Search Departments',
+              border: const OutlineInputBorder(),
+              focusedBorder: const OutlineInputBorder(
                 borderSide: BorderSide(),
               ),
-              suffixIcon: Icon(
+              suffixIcon: const Icon(
                 Icons.search_rounded,
               ),
             ),

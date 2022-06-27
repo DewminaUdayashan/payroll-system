@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'department_search_field.dart';
 
 class DepartmentTitleBar extends SliverPersistentHeaderDelegate {
+  DepartmentTitleBar({this.isDesignationView = false});
+  final bool isDesignationView;
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
@@ -12,13 +14,16 @@ class DepartmentTitleBar extends SliverPersistentHeaderDelegate {
       color: Theme.of(context).colorScheme.secondary,
       child: Column(
         children: [
-          const DepartmentSearchField(),
+          DepartmentSearchField(isDesignationView: isDesignationView),
           Row(
-            children: const [
-              DepartmentTitle(title: 'Department'),
-              DepartmentTitle(title: 'Employees'),
-              DepartmentTitle(title: 'Avarage Salary'),
-              DepartmentTitle(title: 'Actions'),
+            children: [
+              DepartmentTitle(
+                  title: isDesignationView ? 'Designation' : 'Department'),
+              DepartmentTitle(
+                  title: isDesignationView ? 'Department' : 'Employees'),
+              DepartmentTitle(
+                  title: isDesignationView ? 'Allowance' : 'Avarage Salary'),
+              DepartmentTitle(title: isDesignationView ? 'Actions' : 'Actions'),
             ],
           ),
         ],

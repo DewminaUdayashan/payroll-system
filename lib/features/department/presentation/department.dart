@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:payroll_system/features/department/presentation/blocs/departments_cubit/departments_cubit.dart';
-import 'package:payroll_system/features/department/presentation/widgets/add_department_dialog.dart';
-import 'package:payroll_system/features/department/presentation/widgets/departments_list.dart';
-import 'package:payroll_system/features/department/presentation/widgets/departmet_title.dart';
+import 'package:payroll_system/features/department/presentation/blocs/department_page_controller_cubit/department_page_controller_cubit.dart';
+import 'package:payroll_system/features/department/presentation/designation_page/designation_page.dart';
+
+import 'departments_page/departments_page.dart';
+import 'departments_page/widgets/add_department_dialog.dart';
 
 class Department extends StatefulWidget {
   const Department({Key? key}) : super(key: key);
@@ -13,12 +14,10 @@ class Department extends StatefulWidget {
 }
 
 class _DepartmentState extends State<Department> {
-  final ScrollController scrollController = ScrollController();
   final PageController pageController = PageController();
 
   @override
   void dispose() {
-    scrollController.dispose();
     pageController.dispose();
     super.dispose();
   }
@@ -27,64 +26,57 @@ class _DepartmentState extends State<Department> {
   Widget build(BuildContext context) {
     return Material(
       type: MaterialType.transparency,
-      child: Stack(
-        children: [
-          PageView.builder(
+      child: BlocListener<DepartmentPageControllerCubit,
+          DepartmentPageControllerState>(
+        listener: (context, state) {
+          if (state is DepartmentPage) {
+            pageController.animateToPage(0,
+                duration: const Duration(milliseconds: 400),
+                curve: Curves.easeIn);
+          } else {
+            pageController.animateToPage(1,
+                duration: const Duration(milliseconds: 400),
+                curve: Curves.easeIn);
+          }
+        },
+        child: Stack(
+          children: [
+            PageView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: pageController,
               itemCount: 2,
               itemBuilder: (context, index) {
-                return Scrollbar(
-                  controller: scrollController,
-                  thumbVisibility: true,
-                  child: CustomScrollView(
-                    controller: scrollController,
-                    slivers: [
-                      SliverPersistentHeader(
-                        delegate: DepartmentTitleBar(),
-                        floating: true,
-                      ),
-                      SliverToBoxAdapter(
-                        child: BlocBuilder<DepartmentsCubit, DepartmentsState>(
-                          builder: (context, state) {
-                            if (state is DepartmentsLoading) {
-                              return const Center(
-                                  child: CircularProgressIndicator());
-                            }
-                            if (state is DepartmentsError) {
-                              return Center(
-                                child: Text(state.message),
-                              );
-                            }
-                            final currentState = state as DepartmentsLoaded;
-                            return DepartmentsList(currentState: currentState);
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              }),
-          Positioned(
-            bottom: 20,
-            right: 20,
-            child: FloatingActionButton.extended(
-              onPressed: () => showDialog(
-                  context: context,
-                  builder: (_) => const AddDepartmentDialog()),
-              label: Text(
-                'Add New',
-                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: Theme.of(context).colorScheme.onSecondary,
-                    ),
-              ),
-              icon: Icon(
-                Icons.add_rounded,
-                color: Theme.of(context).colorScheme.onSecondary,
-              ),
-              backgroundColor: Theme.of(context).colorScheme.primary,
+                return pages[index];
+              },
             ),
-          ),
-        ],
+            Positioned(
+              bottom: 20,
+              right: 20,
+              child: FloatingActionButton.extended(
+                onPressed: () => showDialog(
+                    context: context,
+                    builder: (_) => const AddDepartmentDialog()),
+                label: Text(
+                  'Add New',
+                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                        color: Theme.of(context).colorScheme.onSecondary,
+                      ),
+                ),
+                icon: Icon(
+                  Icons.add_rounded,
+                  color: Theme.of(context).colorScheme.onSecondary,
+                ),
+                backgroundColor: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
+
+const pages = [
+  DepartmentsPage(),
+  DesignationPage(),
+];

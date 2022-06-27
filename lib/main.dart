@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payroll_system/core/network/api.dart';
 import 'package:payroll_system/features/department/data/datasources/departmetn_data_source_impl.dart';
 import 'package:payroll_system/features/department/data/repositories/department_repository_impl.dart';
+import 'package:payroll_system/features/department/presentation/blocs/department_page_controller_cubit/department_page_controller_cubit.dart';
 import 'package:payroll_system/features/department/presentation/blocs/departments_cubit/departments_cubit.dart';
 import 'package:payroll_system/features/login/data/datasources/impl/login_data_source_impl.dart';
 import 'package:payroll_system/features/login/data/repositories/login_repository_impl.dart';
@@ -79,6 +80,9 @@ class _MyAppState extends State<MyApp> {
                     ),
                   ),
                 )..getDepartments(),
+              ),
+              BlocProvider(
+                create: (context) => DepartmentPageControllerCubit(),
               ),
             ],
             child: SystemInteractionListner(

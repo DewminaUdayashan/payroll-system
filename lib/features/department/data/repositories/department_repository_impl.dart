@@ -17,9 +17,9 @@ class DepartmentRepositoryImpl extends DepartmentRepository {
     try {
       return Right(await _departmentDataSource.getDepartments(filter: filter));
     } on FetchFailed catch (e) {
-      return Left(FetchFaiure(code: e.code, message: 'e.message'));
+      return Left(FetchFaiure(code: e.code, message: e.message));
     } on ServerException catch (e) {
-      return Left(ApiFailure(code: e.code, message: 'e.message'));
+      return Left(ApiFailure(code: e.code, message: e.message));
     } catch (e, stack) {
       return Left(
           ApiFailure(code: 400, message: e.toString() + stack.toString()));

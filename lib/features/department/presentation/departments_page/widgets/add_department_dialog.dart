@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:payroll_system/features/department/domain/entities/department.dart';
 import 'package:payroll_system/features/department/presentation/blocs/departments_cubit/departments_cubit.dart';
 
-import '../../../../core/shared/strings.dart';
-import '../../data/models/department_model.dart';
+import '../../../../../core/shared/strings.dart';
+import '../../../data/models/department_model.dart';
 
 class AddDepartmentDialog extends StatefulWidget {
   const AddDepartmentDialog({this.department, Key? key}) : super(key: key);
