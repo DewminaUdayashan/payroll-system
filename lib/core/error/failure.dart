@@ -23,6 +23,11 @@ class ApiFailure extends Failure {
   List<Object?> get props => [code, message];
 }
 
+class AuthorizationFailure extends Failure {
+  @override
+  List<Object?> get props => [];
+}
+
 class LoginFaiure extends Failure {
   final int code;
   final String message;

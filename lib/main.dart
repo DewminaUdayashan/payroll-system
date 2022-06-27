@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payroll_system/core/network/api.dart';
+import 'package:payroll_system/features/department/data/datasources/departmetn_data_source_impl.dart';
+import 'package:payroll_system/features/department/data/repositories/department_repository_impl.dart';
+import 'package:payroll_system/features/department/presentation/blocs/departments_cubit/departments_cubit.dart';
 import 'package:payroll_system/features/login/data/datasources/impl/login_data_source_impl.dart';
 import 'package:payroll_system/features/login/data/repositories/login_repository_impl.dart';
 import 'package:payroll_system/features/login/domain/usecases/login.dart';
@@ -13,9 +16,10 @@ import 'package:payroll_system/features/system/presentation/blocs/system_tab/sys
 
 import 'core/shared/app_router.dart';
 import 'core/shared/app_theme.dart';
+import 'core/shared/bloc_observer.dart';
 import 'core/shared/strings.dart';
 import 'core/utils/system_interaction_listener.dart';
-import 'features/number_trivia/presentation/shared/bloc_observer.dart';
+import 'features/department/domain/usecase/departments.dart';
 
 const minSize = Size(1280, 720);
 
@@ -66,6 +70,15 @@ class _MyAppState extends State<MyApp> {
               ),
               BlocProvider(
                 create: (context) => SystemTabCubit(),
+              ),
+              BlocProvider(
+                create: (context) => DepartmentsCubit(
+                  Departments(
+                    DepartmentRepositoryImpl(
+                      DepartmentDataSourceImpl(),
+                    ),
+                  ),
+                )..getDepartments(),
               ),
             ],
             child: SystemInteractionListner(

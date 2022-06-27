@@ -18,4 +18,7 @@ class SystemTabCubit extends Cubit<SystemTabState> {
   ];
 
   void onTabChanged(SystemTab tab) => emit(SystemTabState(selectedTab: tab));
+
+  onSecondaryTabChanged(SecondaryTab secondaryTab) =>
+      emit(state.copyWith(selectedSecondaryTab: secondaryTab));
 }

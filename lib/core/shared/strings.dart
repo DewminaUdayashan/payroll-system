@@ -7,3 +7,5 @@ const needLoginSupport = 'Need Support?';
 const clickHere = 'Click Here';
 const dashboard = 'Dashboard';
 const eCategories = 'Employee Categories';
+const addDepartment = 'Add Department';
+const updateDepartment = 'Update Department';

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:http/http.dart';
 import 'package:payroll_system/features/department/data/models/department_model.dart';
 import 'package:payroll_system/features/department/domain/entities/department.dart';
 
@@ -9,16 +10,18 @@ import 'department_datasource.dart';
 
 class DepartmentDataSourceImpl extends DepartmentDataSource {
   @override
-  Future<List<Department>> getDepartments({Department? filter}) async {
-    if (filter != null) throw UnimplementedError();
-    final response = await API.get(endPoint: 'departments');
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body)['data']
-          .map((e) => DepartmentModel.fromMap(e))
-          .toList()
-          .right();
+  Future<List<DepartmentModel>> getDepartments({Department? filter}) async {
+    final Response? response;
+    if (filter != null) {
+      response = await API.get(endPoint: 'departments/like/${filter.name}');
     } else {
-      final decoded = jsonDecode(response.body);
+      response = await API.get(endPoint: 'departments');
+    }
+    final decoded = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      final List<dynamic> data = decoded['data'];
+      return data.map((e) => DepartmentModel.fromMap(e)).toList();
+    } else {
       if (response.statusCode == 401) {
         throw FetchFailed(code: response.statusCode, message: decoded['data']);
       } else {
@@ -34,12 +37,36 @@ class DepartmentDataSourceImpl extends DepartmentDataSource {
   }
 
   @override
-  Future<Department> insertDepartment({required DepartmentModel department}) {
-    throw UnimplementedError();
+  Future<bool> insertDepartment({required DepartmentModel department}) async {
+    final response = await API.post(
+        endPoint: 'departments/create', data: department.toMap());
+    final decoded = jsonDecode(response.body);
+    if (response.statusCode == 201) {
+      return true;
+    } else {
+      if (response.statusCode == 401) {
+        throw NotAuthorizedExecption();
+      } else {
+        throw ServerException(
+            code: response.statusCode, message: decoded['data']);
+      }
+    }
   }
 
   @override
-  Future<Department> updateDepartment({required DepartmentModel department}) {
-    throw UnimplementedError();
+  Future<bool> updateDepartment({required DepartmentModel department}) async {
+    final response = await API.patch(
+        endPoint: 'departments/update', data: department.toMap());
+    final decoded = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      if (response.statusCode == 401) {
+        throw NotAuthorizedExecption();
+      } else {
+        throw ServerException(
+            code: response.statusCode, message: decoded['data'].toString());
+      }
+    }
   }
 }

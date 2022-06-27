@@ -8,10 +8,10 @@ abstract class DepartmentRepository {
   Future<Either<Failure, List<Department>>> getDepartments(
       {Department? filter});
 
-  Future<Either<Failure, Department>> insertDepartment(
+  Future<Either<Failure, bool>> insertDepartment(
       {required DepartmentModel department});
 
-  Future<Either<Failure, Department>> updateDepartment(
+  Future<Either<Failure, bool>> updateDepartment(
       {required DepartmentModel department});
 
   Future<Either<Failure, bool>> deleteDepartment(
