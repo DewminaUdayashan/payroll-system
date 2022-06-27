@@ -27,6 +27,7 @@ class NotificationHelper {
       description: Text(subtitle),
       showProgressIndicator: true,
       notificationPosition: NotificationPosition.bottom,
+      toastDuration: const Duration(seconds: 5),
     ).show(context);
   }
 }

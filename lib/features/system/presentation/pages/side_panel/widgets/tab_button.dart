@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:payroll_system/features/department/presentation/blocs/departments_cubit/departments_cubit.dart';
+import 'package:payroll_system/features/department/presentation/blocs/designations_cubit/designations_cubit.dart';
 import 'package:payroll_system/features/system/presentation/blocs/system_tab/system_tab_cubit.dart';
 import 'package:payroll_system/features/system/presentation/shared/system_enums.dart';
 
@@ -33,6 +35,8 @@ class TabButton extends StatelessWidget {
                     /// we animate page only if it is alredy navigated to the second page
 
                     if (tab == SystemTab.departments) {
+                      /// fetch when the tab is clicked
+                      context.read<DepartmentsCubit>().getDepartments();
                       context
                           .read<DepartmentPageControllerCubit>()
                           .animatePage(0);
@@ -79,6 +83,9 @@ class TabButton extends StatelessWidget {
                                 type: MaterialType.transparency,
                                 child: InkWell(
                                   onTap: () {
+                                    context
+                                        .read<DesignationsCubit>()
+                                        .getDesignations();
                                     context
                                         .read<SystemTabCubit>()
                                         .onSecondaryTabChanged(

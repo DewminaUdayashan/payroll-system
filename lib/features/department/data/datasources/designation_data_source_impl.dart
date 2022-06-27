@@ -33,7 +33,6 @@ class DesignationDatasourceImpl extends DesignationDataSource {
 
   @override
   Future<bool> deleteDesignation({required Designation designation}) {
-    // TODO: implement deleteDesignation
     throw UnimplementedError();
   }
 
@@ -50,7 +49,7 @@ class DesignationDatasourceImpl extends DesignationDataSource {
         throw NotAuthorizedExecption();
       } else {
         throw ServerException(
-            code: response.statusCode, message: decoded['data']);
+            code: response.statusCode, message: decoded['data'].toString());
       }
     }
   }
@@ -61,14 +60,14 @@ class DesignationDatasourceImpl extends DesignationDataSource {
     final response = await API.patch(
         endPoint: 'designations/update', data: designation.toMap());
     final decoded = jsonDecode(response.body);
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       return true;
     } else {
       if (response.statusCode == 401) {
         throw NotAuthorizedExecption();
       } else {
         throw ServerException(
-            code: response.statusCode, message: decoded['data']);
+            code: response.statusCode, message: decoded['data'].toString());
       }
     }
   }

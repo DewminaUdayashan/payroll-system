@@ -15,7 +15,7 @@ class DesignationRepositoryImpl extends DesignationRepository {
   Future<Either<Failure, List<Designation>>> getdesignations(
       {Designation? filter}) async {
     try {
-      return Right(await _dataSource.getDesignations(filter: null));
+      return Right(await _dataSource.getDesignations(filter: filter));
     } on FetchFailed catch (e) {
       return Left(FetchFaiure(code: e.code, message: e.message));
     } on ServerException catch (e) {

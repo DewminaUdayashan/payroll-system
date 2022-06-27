@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payroll_system/features/department/presentation/blocs/departments_cubit/departments_cubit.dart';
+import 'package:payroll_system/features/department/presentation/blocs/designations_cubit/designations_cubit.dart';
 
 class DepartmentSearchField extends StatelessWidget {
   const DepartmentSearchField({
@@ -19,7 +20,9 @@ class DepartmentSearchField extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextField(
-            onChanged: context.read<DepartmentsCubit>().searchDepartment,
+            onChanged: !isDesignationView
+                ? context.read<DepartmentsCubit>().searchDepartment
+                : context.read<DesignationsCubit>().searchDesignation,
             decoration: InputDecoration(
               hintText: isDesignationView
                   ? 'Search Designations'

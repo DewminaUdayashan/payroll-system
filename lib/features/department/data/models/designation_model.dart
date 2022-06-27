@@ -13,7 +13,7 @@ class DesignationModel extends Designation {
       'id': id,
       'name': name,
       'departmentId': departmentId,
-      'allowance': allowance,
+      'basicAllowance': allowance,
     };
   }
 
@@ -21,8 +21,8 @@ class DesignationModel extends Designation {
     return DesignationModel(
       id: map['id'] != null ? map['id'] as int : null,
       name: map['name'] as String,
-      departmentId: map['departmentId'] as int,
-      allowance: map['allowance'] as double,
+      departmentId: map['deparment_id'] as int,
+      allowance: double.parse(map['basic_allowance'].toString()),
     );
   }
 }

@@ -6,7 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payroll_system/core/network/api.dart';
 import 'package:payroll_system/features/department/data/datasources/departmetn_data_source_impl.dart';
+import 'package:payroll_system/features/department/data/datasources/designation_data_source_impl.dart';
 import 'package:payroll_system/features/department/data/repositories/department_repository_impl.dart';
+import 'package:payroll_system/features/department/data/repositories/designation_repository_impl.dart';
+import 'package:payroll_system/features/department/domain/usecase/designations.dart';
 import 'package:payroll_system/features/department/presentation/blocs/department_page_controller_cubit/department_page_controller_cubit.dart';
 import 'package:payroll_system/features/department/presentation/blocs/departments_cubit/departments_cubit.dart';
 import 'package:payroll_system/features/login/data/datasources/impl/login_data_source_impl.dart';
@@ -21,6 +24,7 @@ import 'core/shared/bloc_observer.dart';
 import 'core/shared/strings.dart';
 import 'core/utils/system_interaction_listener.dart';
 import 'features/department/domain/usecase/departments.dart';
+import 'features/department/presentation/blocs/designations_cubit/designations_cubit.dart';
 
 const minSize = Size(1280, 720);
 
@@ -73,13 +77,12 @@ class _MyAppState extends State<MyApp> {
                 create: (context) => SystemTabCubit(),
               ),
               BlocProvider(
-                create: (context) => DepartmentsCubit(
-                  Departments(
-                    DepartmentRepositoryImpl(
-                      DepartmentDataSourceImpl(),
-                    ),
-                  ),
-                )..getDepartments(),
+                create: (context) => DepartmentsCubit(Departments(
+                    DepartmentRepositoryImpl(DepartmentDataSourceImpl()))),
+              ),
+              BlocProvider(
+                create: (context) => DesignationsCubit(Designations(
+                    DesignationRepositoryImpl(DesignationDatasourceImpl()))),
               ),
               BlocProvider(
                 create: (context) => DepartmentPageControllerCubit(),

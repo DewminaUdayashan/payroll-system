@@ -15,9 +15,12 @@ class DepartmentsCubit extends Cubit<DepartmentsState> {
   DepartmentsCubit(this._departments) : super(DepartmentsLoading());
   final Departments _departments;
 
+  final List<Department> departmentsTmp = <Department>[];
+
   void getDepartments({
     Department? department,
   }) async {
+    departmentsTmp.clear();
     emit(DepartmentsLoading());
     try {
       final departments = await _departments(department);
@@ -31,7 +34,10 @@ class DepartmentsCubit extends Cubit<DepartmentsState> {
             emit(const DepartmentsError(message: 'Something went wrong...'));
           }
         },
-        (departments) => emit(DepartmentsLoaded(departments: departments)),
+        (departmentsRes) {
+          departmentsTmp.addAll(departmentsRes);
+          emit(DepartmentsLoaded(departments: departmentsRes));
+        },
       );
     } catch (e) {
       emit(DepartmentsError(message: e.toString()));
@@ -98,6 +104,45 @@ class DepartmentsCubit extends Cubit<DepartmentsState> {
       getDepartments(department: DepartmentModel(name: value.trim()));
     } else {
       getDepartments();
+    }
+  }
+
+  Future<List<Department>?> getSearchSuggetions(String? str) async {
+    if (str != null) {
+      try {
+        final departments = await _departments(Department(name: str));
+        return departments.fold(
+          (failure) {
+            //todo: handle error
+            return null;
+          },
+          (departments) => departments,
+        );
+      } catch (e) {
+        emit(DepartmentsError(message: e.toString()));
+      }
+      return null;
+    }
+    return null;
+  }
+
+  String? validateSubmittedDepartment(String? str) {
+    if (str == null) return 'Please select a department..';
+    if (!departmentsTmp.any((element) => element.name == str)) {
+      return 'Please select a department..';
+    }
+    return null;
+  }
+
+  int getDepartmetId(String text) {
+    return departmentsTmp.firstWhere((element) => element.name == text).id!;
+  }
+
+  String getDepartmentNameById(int? id) {
+    try {
+      return departmentsTmp.firstWhere((element) => element.id == id).name;
+    } catch (e) {
+      return 'UNKNOWN ERROR';
     }
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:payroll_system/features/department/presentation/blocs/department_page_controller_cubit/department_page_controller_cubit.dart';
 import 'package:payroll_system/features/department/presentation/designation_page/designation_page.dart';
+import 'package:payroll_system/features/department/presentation/designation_page/widgets/add_designation_dialog.dart';
 
 import 'departments_page/departments_page.dart';
 import 'departments_page/widgets/add_department_dialog.dart';
@@ -55,7 +56,19 @@ class _DepartmentState extends State<Department> {
               child: FloatingActionButton.extended(
                 onPressed: () => showDialog(
                     context: context,
-                    builder: (_) => const AddDepartmentDialog()),
+                    builder: (_) {
+                      /// in here, first we check if the user is adding a department or a designation
+                      /// and then we show the appropriate dialog
+                      /// if the user is adding a department, we show the [AddDepartmentDialog]
+                      /// if the user is adding a designation, we show the [AddDesignationDialog]
+                      final page =
+                          context.read<DepartmentPageControllerCubit>().state;
+                      if (page is DepartmentPage) {
+                        return const AddDepartmentDialog();
+                      } else {
+                        return const AddDesignationDialog();
+                      }
+                    }),
                 label: Text(
                   'Add New',
                   style: Theme.of(context).textTheme.titleSmall!.copyWith(

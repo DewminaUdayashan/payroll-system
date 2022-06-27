@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:payroll_system/features/department/presentation/blocs/designations_cubit/designations_cubit.dart';
+import 'package:payroll_system/features/department/presentation/designation_page/widgets/designations_ist.dart';
 
 import '../departments_page/widgets/departmet_title.dart';
 
@@ -30,7 +33,24 @@ class _DesignationPageState extends State<DesignationPage> {
             delegate: DepartmentTitleBar(isDesignationView: true),
             floating: true,
           ),
-          const SliverToBoxAdapter(),
+          SliverToBoxAdapter(
+            child: BlocBuilder<DesignationsCubit, DesignationsState>(
+              builder: (context, state) {
+                if (state is DesignationsLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (state is DesignationsError) {
+                  return Center(
+                    child: Text(state.message),
+                  );
+                }
+                final currentState = state as DesignationsLoaded;
+                return DesignationsList(currentState: currentState);
+              },
+            ),
+          ),
         ],
       ),
     );
