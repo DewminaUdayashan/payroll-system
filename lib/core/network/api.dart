@@ -33,4 +33,15 @@ class API {
       body: json.encode(data),
     );
   }
+
+  static Future<http.Response> patch({
+    required String endPoint,
+    Map<String, dynamic>? data,
+  }) async {
+    return http.patch(
+      Uri.parse('http://$server/$endPoint'),
+      headers: _headers,
+      body: json.encode(data),
+    );
+  }
 }

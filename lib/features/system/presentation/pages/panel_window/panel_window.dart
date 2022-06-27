@@ -37,8 +37,9 @@ class _PanelWindowState extends State<PanelWindow> {
             color: Theme.of(context)
                 .colorScheme
                 .secondaryContainer
-                .withOpacity(.5),
+                .withOpacity(.1),
             child: PageView.builder(
+              physics: const NeverScrollableScrollPhysics(),
               controller: pageController,
               scrollDirection: Axis.vertical,
               itemCount: SystemTab.values.length,

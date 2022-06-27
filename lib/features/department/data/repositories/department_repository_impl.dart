@@ -20,6 +20,9 @@ class DepartmentRepositoryImpl extends DepartmentRepository {
       return Left(FetchFaiure(code: e.code, message: e.message));
     } on ServerException catch (e) {
       return Left(ApiFailure(code: e.code, message: e.message));
+    } catch (e, stack) {
+      return Left(
+          ApiFailure(code: 400, message: e.toString() + stack.toString()));
     }
   }
 
@@ -30,14 +33,30 @@ class DepartmentRepositoryImpl extends DepartmentRepository {
   }
 
   @override
-  Future<Either<Failure, Department>> insertDepartment(
-      {required DepartmentModel department}) {
-    throw UnimplementedError();
+  Future<Either<Failure, bool>> insertDepartment(
+      {required DepartmentModel department}) async {
+    try {
+      return Right(
+          await _departmentDataSource.insertDepartment(department: department));
+    } on NotAuthorizedExecption {
+      return Left(AuthorizationFailure());
+    } catch (e, stack) {
+      return Left(
+          ApiFailure(code: 400, message: e.toString() + stack.toString()));
+    }
   }
 
   @override
-  Future<Either<Failure, Department>> updateDepartment(
-      {required DepartmentModel department}) {
-    throw UnimplementedError();
+  Future<Either<Failure, bool>> updateDepartment(
+      {required DepartmentModel department}) async {
+    try {
+      return Right(
+          await _departmentDataSource.updateDepartment(department: department));
+    } on NotAuthorizedExecption {
+      return Left(AuthorizationFailure());
+    } catch (e, stack) {
+      return Left(
+          ApiFailure(code: 400, message: e.toString() + stack.toString()));
+    }
   }
 }

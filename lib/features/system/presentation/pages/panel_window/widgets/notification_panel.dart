@@ -10,7 +10,7 @@ class NotificationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 50.h,
-      color: Theme.of(context).colorScheme.secondaryContainer,
+      color: Colors.white,
     );
   }
 }

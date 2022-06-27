@@ -7,6 +7,8 @@ class ServerException implements Exception {
 
 class CacheException implements Exception {}
 
+class NotAuthorizedExecption implements Exception {}
+
 class LoginFailed implements Exception {
   final int code;
   final String message;
