@@ -23,16 +23,33 @@ class DepartmentSearchField extends StatelessWidget {
             onChanged: !isDesignationView
                 ? context.read<DepartmentsCubit>().searchDepartment
                 : context.read<DesignationsCubit>().searchDesignation,
+            cursorColor: Theme.of(context).colorScheme.onPrimary,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
             decoration: InputDecoration(
-              hintText: isDesignationView
+              labelText: isDesignationView
                   ? 'Search Designations'
                   : 'Search Departments',
-              border: const OutlineInputBorder(),
-              focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(),
+              hintStyle: TextStyle(
+                color: Theme.of(context).colorScheme.onPrimary,
               ),
-              suffixIcon: const Icon(
+              labelStyle: TextStyle(
+                color: Theme.of(context).colorScheme.onPrimary,
+              ),
+              border: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
+              ),
+              suffixIcon: Icon(
                 Icons.search_rounded,
+                color: Theme.of(context).colorScheme.onPrimary,
               ),
             ),
           ),

@@ -26,7 +26,6 @@ class DepartmentsList extends StatelessWidget {
                 mouseCursor: MouseCursor.defer,
                 hoverColor: Theme.of(context).colorScheme.secondaryContainer,
                 enableFeedback: true,
-                autofocus: true,
                 onTap: () {},
                 title: Row(
                   children: [

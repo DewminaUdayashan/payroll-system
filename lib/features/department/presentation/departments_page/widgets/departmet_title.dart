@@ -11,7 +11,7 @@ class DepartmentTitleBar extends SliverPersistentHeaderDelegate {
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
       height: 100.h,
-      color: Theme.of(context).colorScheme.secondary,
+      color: Theme.of(context).colorScheme.primary,
       child: Column(
         children: [
           DepartmentSearchField(isDesignationView: isDesignationView),

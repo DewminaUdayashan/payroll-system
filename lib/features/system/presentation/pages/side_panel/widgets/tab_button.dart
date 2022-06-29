@@ -57,7 +57,7 @@ class TabButton extends StatelessWidget {
                               Icon(
                                 tab.icon,
                                 color: state.selectedTab == tab
-                                    ? Colors.black87
+                                    ? Theme.of(context).colorScheme.primary
                                     : Colors.grey,
                               ),
                               const SizedBox(width: 8),
@@ -68,7 +68,9 @@ class TabButton extends StatelessWidget {
                                     .bodyLarge!
                                     .copyWith(
                                         color: state.selectedTab == tab
-                                            ? Colors.black87
+                                            ? Theme.of(context)
+                                                .colorScheme
+                                                .primary
                                             : Colors.grey),
                               )
                             ],
@@ -114,7 +116,9 @@ class TabButton extends StatelessWidget {
                                             size: 13.sp,
                                             color: state.selectedSecondaryTab ==
                                                     SecondaryTab.designation
-                                                ? Colors.black87
+                                                ? Theme.of(context)
+                                                    .colorScheme
+                                                    .onPrimaryContainer
                                                 : Colors.black54,
                                           ),
                                           const SizedBox(width: 10),
@@ -128,7 +132,9 @@ class TabButton extends StatelessWidget {
                                                       state.selectedSecondaryTab ==
                                                               SecondaryTab
                                                                   .designation
-                                                          ? Colors.black87
+                                                          ? Theme.of(context)
+                                                              .colorScheme
+                                                              .onPrimaryContainer
                                                           : Colors.black54,
                                                   fontSize: 13.sp,
                                                 ),
