@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../shared/emp_enums.dart';
+import '../employees_add/employees_add_dialog.dart';
 
 class EmployeesActionBar extends StatelessWidget {
   const EmployeesActionBar({
@@ -55,7 +56,12 @@ class EmployeesActionBar extends StatelessWidget {
           ),
           const Spacer(),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (_) => const EmployeesAddDialog(),
+              );
+            },
             style: TextButton.styleFrom(
               backgroundColor:
                   Theme.of(context).colorScheme.primary.withOpacity(.1),
