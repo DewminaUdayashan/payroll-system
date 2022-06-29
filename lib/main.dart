@@ -12,6 +12,7 @@ import 'package:payroll_system/features/department/data/repositories/designation
 import 'package:payroll_system/features/department/domain/usecase/designations.dart';
 import 'package:payroll_system/features/department/presentation/blocs/department_page_controller_cubit/department_page_controller_cubit.dart';
 import 'package:payroll_system/features/department/presentation/blocs/departments_cubit/departments_cubit.dart';
+import 'package:payroll_system/features/employees/presentation/blocs/gender_radio/gender_radio_cubit.dart';
 import 'package:payroll_system/features/login/data/datasources/impl/login_data_source_impl.dart';
 import 'package:payroll_system/features/login/data/repositories/login_repository_impl.dart';
 import 'package:payroll_system/features/login/domain/usecases/login.dart';
@@ -86,6 +87,9 @@ class _MyAppState extends State<MyApp> {
               ),
               BlocProvider(
                 create: (context) => DepartmentPageControllerCubit(),
+              ),
+              BlocProvider(
+                create: (context) => GenderRadioCubit(),
               ),
             ],
             child: SystemInteractionListner(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:payroll_system/features/employees/presentation/blocs/gender_radio/gender_radio_cubit.dart';
 
 import '../../shared/emp_enums.dart';
 import '../employees_add/employees_add_dialog.dart';
@@ -57,6 +59,7 @@ class EmployeesActionBar extends StatelessWidget {
           const Spacer(),
           TextButton(
             onPressed: () {
+              context.read<GenderRadioCubit>().changeGender(Gender.notSelected);
               showDialog(
                 context: context,
                 builder: (_) => const EmployeesAddDialog(),
