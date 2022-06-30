@@ -88,6 +88,19 @@ class EmployeesActionBar extends StatelessWidget {
             ),
             child: const Text('Import Employees'),
           ),
+          const SizedBox(width: 10),
+          TextButton(
+            onPressed: () {},
+            style: TextButton.styleFrom(
+              backgroundColor:
+                  Theme.of(context).colorScheme.primary.withOpacity(.1),
+              enableFeedback: true,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+            child: const Text('EPF'),
+          ),
         ],
       ),
     );

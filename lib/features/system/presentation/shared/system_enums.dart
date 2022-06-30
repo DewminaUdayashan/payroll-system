@@ -5,6 +5,7 @@ enum SystemTab { dashboard, task, employees, departments }
 
 enum SecondaryTab {
   designation,
+  epf,
 }
 
 extension SecondaryTabExtention on SecondaryTab {
@@ -12,6 +13,8 @@ extension SecondaryTabExtention on SecondaryTab {
     switch (this) {
       case SecondaryTab.designation:
         return 'Designations';
+      case SecondaryTab.epf:
+        return 'EPF';
       default:
         return '';
     }
@@ -21,6 +24,8 @@ extension SecondaryTabExtention on SecondaryTab {
     switch (this) {
       case SecondaryTab.designation:
         return CupertinoIcons.person_2_alt;
+      case SecondaryTab.epf:
+        return CupertinoIcons.money_dollar_circle_fill;
       default:
         return Icons.dashboard;
     }

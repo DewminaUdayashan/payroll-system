@@ -15,7 +15,9 @@ class DesignationsCubit extends Cubit<DesignationsState> {
   DesignationsCubit(this._designations) : super(DesignationsLoading());
   final Designations _designations;
 
-  void getDesignations({
+  final List<Designation> designationsTmp = <Designation>[];
+
+  Future<void> getDesignations({
     Designation? designation,
   }) async {
     emit(DesignationsLoading());
@@ -31,7 +33,11 @@ class DesignationsCubit extends Cubit<DesignationsState> {
             emit(const DesignationsError(message: 'Something went wrong...'));
           }
         },
-        (result) => emit(DesignationsLoaded(designations: result)),
+        (result) {
+          designationsTmp.clear();
+          designationsTmp.addAll(result);
+          emit(DesignationsLoaded(designations: result));
+        },
       );
     } catch (e) {
       emit(DesignationsError(message: e.toString()));
@@ -100,6 +106,16 @@ class DesignationsCubit extends Cubit<DesignationsState> {
               name: value.trim(), allowance: 0.0, departmentId: 0));
     } else {
       getDesignations();
+    }
+  }
+
+  String getDesignationNameById(int designationId) {
+    if (designationsTmp.isNotEmpty) {
+      return designationsTmp
+          .firstWhere((element) => element.id == designationId)
+          .name;
+    } else {
+      return '';
     }
   }
 }

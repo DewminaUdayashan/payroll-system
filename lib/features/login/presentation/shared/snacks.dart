@@ -8,3 +8,12 @@ void showLoginFailedSnack(BuildContext context, String message) {
     ),
   );
 }
+
+void showWarningSnack(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.yellow,
+    ),
+  );
+}

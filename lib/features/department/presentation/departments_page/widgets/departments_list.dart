@@ -23,6 +23,9 @@ class DepartmentsList extends StatelessWidget {
             return MouseRegion(
               cursor: SystemMouseCursors.click,
               child: ListTile(
+                tileColor: index.isEven
+                    ? Theme.of(context).colorScheme.primaryContainer
+                    : null,
                 mouseCursor: MouseCursor.defer,
                 hoverColor: Theme.of(context).colorScheme.secondaryContainer,
                 enableFeedback: true,

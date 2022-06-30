@@ -30,4 +30,19 @@ class NotificationHelper {
       toastDuration: const Duration(seconds: 5),
     ).show(context);
   }
+
+  static void info({
+    String title = 'Failed..!',
+    String subtitle = 'Something went wrong..',
+    required BuildContext context,
+    bool showAction = true,
+  }) {
+    ElegantNotification.info(
+      title: Text(title),
+      description: Text(subtitle),
+      showProgressIndicator: true,
+      notificationPosition: NotificationPosition.bottom,
+      toastDuration: const Duration(seconds: 5),
+    ).show(context);
+  }
 }

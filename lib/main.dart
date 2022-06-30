@@ -12,7 +12,13 @@ import 'package:payroll_system/features/department/data/repositories/designation
 import 'package:payroll_system/features/department/domain/usecase/designations.dart';
 import 'package:payroll_system/features/department/presentation/blocs/department_page_controller_cubit/department_page_controller_cubit.dart';
 import 'package:payroll_system/features/department/presentation/blocs/departments_cubit/departments_cubit.dart';
+import 'package:payroll_system/features/employees/data/datasources/employee_data_source_impl.dart';
+import 'package:payroll_system/features/employees/data/repositories/employee_repository_impl.dart';
+import 'package:payroll_system/features/employees/domain/usecases/employees.dart';
+import 'package:payroll_system/features/employees/presentation/blocs/emp_department_filter.dart/emp_department_filter_cubit.dart';
+import 'package:payroll_system/features/employees/presentation/blocs/employees_cubit/employees_cubit.dart';
 import 'package:payroll_system/features/employees/presentation/blocs/gender_radio/gender_radio_cubit.dart';
+import 'package:payroll_system/features/employees/presentation/blocs/image_picker/image_picker_cubit.dart';
 import 'package:payroll_system/features/login/data/datasources/impl/login_data_source_impl.dart';
 import 'package:payroll_system/features/login/data/repositories/login_repository_impl.dart';
 import 'package:payroll_system/features/login/domain/usecases/login.dart';
@@ -79,17 +85,29 @@ class _MyAppState extends State<MyApp> {
               ),
               BlocProvider(
                 create: (context) => DepartmentsCubit(Departments(
-                    DepartmentRepositoryImpl(DepartmentDataSourceImpl()))),
+                    DepartmentRepositoryImpl(DepartmentDataSourceImpl())))
+                  ..getDepartments(),
               ),
               BlocProvider(
                 create: (context) => DesignationsCubit(Designations(
-                    DesignationRepositoryImpl(DesignationDatasourceImpl()))),
+                    DesignationRepositoryImpl(DesignationDatasourceImpl())))
+                  ..getDesignations(),
+              ),
+              BlocProvider(
+                create: (context) => EmployeesCubit(Employees(
+                    EmployeeRepositoryImpl(EmployeeDataSourceImpl()))),
               ),
               BlocProvider(
                 create: (context) => DepartmentPageControllerCubit(),
               ),
               BlocProvider(
                 create: (context) => GenderRadioCubit(),
+              ),
+              BlocProvider(
+                create: (context) => ImagePickerCubit(),
+              ),
+              BlocProvider(
+                create: (context) => EmpDepartmentFilterCubit(),
               ),
             ],
             child: SystemInteractionListner(

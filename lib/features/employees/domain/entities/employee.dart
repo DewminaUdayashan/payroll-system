@@ -3,6 +3,8 @@
 import '../../shared/emp_enums.dart';
 
 class Employee {
+  final int? id;
+  final int designationId;
   final String surename;
   final String firstName;
   final String? lastName;
@@ -13,14 +15,17 @@ class Employee {
   final String? mobile2;
   final String? email;
   final String? accountNo;
-  final String addressLine1;
+  final String? addressLine1;
   final String? addressLine2;
   final String? addressLine3;
   final DateTime joinedDate;
   final DateTime? resignedDate;
   final String? epfNumber;
+  final String? url;
 
   Employee({
+    this.id,
+    required this.designationId,
     required this.surename,
     required this.firstName,
     this.lastName,
@@ -31,12 +36,13 @@ class Employee {
     this.mobile2,
     this.email,
     this.accountNo,
-    required this.addressLine1,
+    this.addressLine1,
     this.addressLine2,
     this.addressLine3,
     required this.joinedDate,
     this.resignedDate,
     this.epfNumber,
+    this.url,
   });
 
   Employee copyWith({
@@ -56,8 +62,12 @@ class Employee {
     DateTime? joinedDate,
     DateTime? resignedDate,
     String? epfNumber,
+    int? id,
+    int? designationId,
   }) {
     return Employee(
+      id: id ?? this.id,
+      designationId: designationId ?? this.designationId,
       surename: surename ?? this.surename,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
@@ -75,57 +85,5 @@ class Employee {
       resignedDate: resignedDate ?? this.resignedDate,
       epfNumber: epfNumber ?? this.epfNumber,
     );
-  }
-
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'surename': surename,
-      'firstName': firstName,
-      'lastName': lastName,
-      'nic': nic,
-      'dateOfBirth': dateOfBirth.millisecondsSinceEpoch,
-      'gender': gender.genderBool,
-      'mobile1': mobile1,
-      'mobile2': mobile2,
-      'email': email,
-      'accountNo': accountNo,
-      'addressLine1': addressLine1,
-      'addressLine2': addressLine2,
-      'addressLine3': addressLine3,
-      'joinedDate': joinedDate,
-      'resignedDate': resignedDate,
-      'epfNumber': epfNumber,
-    };
-  }
-
-  factory Employee.fromMap(Map<String, dynamic> map) {
-    return Employee(
-      surename: map['surename'] as String,
-      firstName: map['firstName'] as String,
-      lastName: map['lastName'] != null ? map['lastName'] as String : null,
-      nic: map['nic'] as String,
-      dateOfBirth:
-          DateTime.fromMillisecondsSinceEpoch(map['dateOfBirth'] as int),
-      gender: genderFromDB(map['gender']),
-      mobile1: map['mobile1'] as String,
-      mobile2: map['mobile2'] != null ? map['mobile2'] as String : null,
-      email: map['email'] != null ? map['email'] as String : null,
-      accountNo: map['accountNo'] != null ? map['accountNo'] as String : null,
-      addressLine1: map['addressLine1'] as String,
-      addressLine2:
-          map['addressLine2'] != null ? map['addressLine2'] as String : null,
-      addressLine3:
-          map['addressLine3'] != null ? map['addressLine3'] as String : null,
-      joinedDate: DateTime.parse(map['joinedDate']),
-      resignedDate: map['resignedDate'] != null
-          ? DateTime.parse(map['resignedDate'])
-          : null,
-      epfNumber: map['epfNumber'] != null ? map['epfNumber'] as String : null,
-    );
-  }
-
-  @override
-  String toString() {
-    return 'Employee(surename: $surename, firstName: $firstName, lastName: $lastName, nic: $nic, dateOfBirth: $dateOfBirth, gender: $gender, mobile1: $mobile1, mobile2: $mobile2, email: $email, accountNo: $accountNo, addressLine1: $addressLine1, addressLine2: $addressLine2, addressLine3: $addressLine3, joinedDate: $joinedDate, resignedDate: $resignedDate, epfNumber: $epfNumber)';
   }
 }

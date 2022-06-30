@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payroll_system/features/department/presentation/blocs/departments_cubit/departments_cubit.dart';
 import 'package:payroll_system/features/department/presentation/blocs/designations_cubit/designations_cubit.dart';
+import 'package:payroll_system/features/employees/presentation/blocs/employees_cubit/employees_cubit.dart';
 import 'package:payroll_system/features/system/presentation/blocs/system_tab/system_tab_cubit.dart';
 import 'package:payroll_system/features/system/presentation/shared/system_enums.dart';
 
@@ -40,6 +41,10 @@ class TabButton extends StatelessWidget {
                       context
                           .read<DepartmentPageControllerCubit>()
                           .animatePage(0);
+                    }
+
+                    if (tab == SystemTab.employees) {
+                      context.read<EmployeesCubit>().loadEmployees();
                     }
                   },
                   hoverColor: Theme.of(context).colorScheme.primaryContainer,
@@ -132,6 +137,71 @@ class TabButton extends StatelessWidget {
                                                       state.selectedSecondaryTab ==
                                                               SecondaryTab
                                                                   .designation
+                                                          ? Theme.of(context)
+                                                              .colorScheme
+                                                              .onPrimaryContainer
+                                                          : Colors.black54,
+                                                  fontSize: 13.sp,
+                                                ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                          if (state.selectedTab == SystemTab.employees &&
+                              tab == SystemTab.employees) ...[
+                            const Divider(),
+                            ClipRRect(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                              child: Material(
+                                type: MaterialType.transparency,
+                                child: InkWell(
+                                  onTap: () {
+                                    context
+                                        .read<SystemTabCubit>()
+                                        .onSecondaryTabChanged(
+                                          SecondaryTab.epf,
+                                        );
+                                  },
+                                  hoverColor:
+                                      Theme.of(context).colorScheme.secondary,
+                                  child: Ink(
+                                    color: state.selectedSecondaryTab ==
+                                            SecondaryTab.epf
+                                        ? Theme.of(context)
+                                            .colorScheme
+                                            .secondary
+                                        : Colors.transparent,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        children: [
+                                          const SizedBox(width: 10),
+                                          Icon(
+                                            SecondaryTab.epf.icon,
+                                            size: 13.sp,
+                                            color: state.selectedSecondaryTab ==
+                                                    SecondaryTab.epf
+                                                ? Theme.of(context)
+                                                    .colorScheme
+                                                    .onPrimaryContainer
+                                                : Colors.black54,
+                                          ),
+                                          const SizedBox(width: 10),
+                                          Text(
+                                            SecondaryTab.epf.name,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge!
+                                                .copyWith(
+                                                  color:
+                                                      state.selectedSecondaryTab ==
+                                                              SecondaryTab.epf
                                                           ? Theme.of(context)
                                                               .colorScheme
                                                               .onPrimaryContainer
