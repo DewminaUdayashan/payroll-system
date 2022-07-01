@@ -10,7 +10,7 @@ import '../../../core/error/exceptions.dart';
 class EPFDataSourceImpl extends EPFDataSource {
   @override
   Future<bool> addEPF(EPFModel epf) async {
-    final response = await API.post(endPoint: 'epf/add', data: epf.toMap());
+    final response = await API.post(endPoint: 'epf/create', data: epf.toMap());
     if (response.statusCode == 201) {
       return true;
     } else if (response.statusCode == 400) {

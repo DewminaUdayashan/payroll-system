@@ -165,6 +165,7 @@ class _EmployeesAddDialogState extends State<EmployeesAddDialog> {
                       child: TextFieldWidget(
                         label: 'NIC',
                         controller: nicController,
+                        maxLenght: 12,
                         onFieldSubmitted: (_) {
                           dobFocusNode.requestFocus();
                           _showDatePicker(context);
@@ -711,7 +712,6 @@ class _EmployeesAddDialogState extends State<EmployeesAddDialog> {
                 addressLine2: address2Controller.text,
                 addressLine3: address3Controller.text,
                 email: emailController.text,
-                epfNumber: epfNumberController.text,
                 lastName: lastNameController.text,
                 url: context.read<ImagePickerCubit>().state.file != null
                     ? base64Encode(context

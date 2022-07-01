@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payroll_system/core/network/api.dart';
+import 'package:payroll_system/features/addition/data/addition_data_source.dart';
+import 'package:payroll_system/features/addition/domain/addition_repository.dart';
+import 'package:payroll_system/features/addition/presentation/blocs/addition_cubit/addition_cubit.dart';
+import 'package:payroll_system/features/addition/presentation/blocs/addition_type/addition_type_cubit.dart';
 import 'package:payroll_system/features/department/data/datasources/departmetn_data_source_impl.dart';
 import 'package:payroll_system/features/department/data/datasources/designation_data_source_impl.dart';
 import 'package:payroll_system/features/department/data/repositories/department_repository_impl.dart';
@@ -16,9 +20,14 @@ import 'package:payroll_system/features/employees/data/datasources/employee_data
 import 'package:payroll_system/features/employees/data/repositories/employee_repository_impl.dart';
 import 'package:payroll_system/features/employees/domain/usecases/employees.dart';
 import 'package:payroll_system/features/employees/presentation/blocs/emp_department_filter.dart/emp_department_filter_cubit.dart';
+import 'package:payroll_system/features/employees/presentation/blocs/employee_page_controller/employee_page_controller_cubit.dart';
 import 'package:payroll_system/features/employees/presentation/blocs/employees_cubit/employees_cubit.dart';
 import 'package:payroll_system/features/employees/presentation/blocs/gender_radio/gender_radio_cubit.dart';
 import 'package:payroll_system/features/employees/presentation/blocs/image_picker/image_picker_cubit.dart';
+import 'package:payroll_system/features/epf/data/epf_data_source_impl.dart';
+import 'package:payroll_system/features/epf/data/epf_repository_impl.dart';
+import 'package:payroll_system/features/epf/domain/epfs.dart';
+import 'package:payroll_system/features/epf/presentation/blocs/epf/epf_cubit.dart';
 import 'package:payroll_system/features/login/data/datasources/impl/login_data_source_impl.dart';
 import 'package:payroll_system/features/login/data/repositories/login_repository_impl.dart';
 import 'package:payroll_system/features/login/domain/usecases/login.dart';
@@ -98,6 +107,11 @@ class _MyAppState extends State<MyApp> {
                     EmployeeRepositoryImpl(EmployeeDataSourceImpl()))),
               ),
               BlocProvider(
+                create: (context) =>
+                    EpfCubit(EPFs(EPFRepositoryImpl(EPFDataSourceImpl())))
+                      ..getEpfs(),
+              ),
+              BlocProvider(
                 create: (context) => DepartmentPageControllerCubit(),
               ),
               BlocProvider(
@@ -108,6 +122,17 @@ class _MyAppState extends State<MyApp> {
               ),
               BlocProvider(
                 create: (context) => EmpDepartmentFilterCubit(),
+              ),
+              BlocProvider(
+                create: (context) => EmployeePageControllerCubit(),
+              ),
+              BlocProvider(
+                create: (context) => AdditionTypeCubit(),
+              ),
+              BlocProvider(
+                create: (context) => AdditionCubit(
+                  AdditionRepository(AdditionDataSource()),
+                ),
               ),
             ],
             child: SystemInteractionListner(

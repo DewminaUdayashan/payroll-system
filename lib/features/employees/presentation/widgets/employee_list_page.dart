@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payroll_system/features/department/presentation/blocs/designations_cubit/designations_cubit.dart';
+import 'package:payroll_system/features/employees/presentation/blocs/employee_page_controller/employee_page_controller_cubit.dart';
 import 'package:payroll_system/features/employees/presentation/blocs/employees_cubit/employees_cubit.dart';
 import 'package:payroll_system/features/employees/presentation/widgets/employees_title.dart';
 
+import '../../../addition/presentation/addition_dialog.dart';
 import 'employee_data_title_bar.dart';
 
 class EmployeeListPage extends StatelessWidget {
@@ -112,10 +114,24 @@ class EmployeeListPage extends StatelessWidget {
                                 IconButton(
                                   onPressed: () {},
                                   icon: const Icon(Icons.edit),
+                                  tooltip: 'Edit',
                                 ),
                                 IconButton(
-                                  onPressed: () {},
+                                  onPressed: () => showDialog(
+                                      context: context,
+                                      builder: (_) =>
+                                          AdditionDialog(employee: employee)),
                                   icon: const Icon(Icons.add_box_rounded),
+                                  tooltip: 'Additions',
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    context
+                                        .read<EmployeePageControllerCubit>()
+                                        .changePAge(1, isDetailView: true);
+                                  },
+                                  icon: const Icon(Icons.arrow_forward_rounded),
+                                  tooltip: 'Details',
                                 ),
                               ],
                             ),

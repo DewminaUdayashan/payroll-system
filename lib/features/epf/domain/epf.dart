@@ -4,10 +4,12 @@ class EPF {
   final int epfNo;
   final double total;
   final DateTime? updateAt;
+  final int? employeeId;
 
   EPF({
     required this.epfNo,
     required this.total,
     this.updateAt,
+    this.employeeId,
   });
 }

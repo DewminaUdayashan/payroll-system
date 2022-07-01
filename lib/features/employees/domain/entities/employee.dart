@@ -20,7 +20,7 @@ class Employee {
   final String? addressLine3;
   final DateTime joinedDate;
   final DateTime? resignedDate;
-  final String? epfNumber;
+  final int? epfNumber;
   final String? url;
 
   Employee({
@@ -44,46 +44,4 @@ class Employee {
     this.epfNumber,
     this.url,
   });
-
-  Employee copyWith({
-    String? surename,
-    String? firstName,
-    String? lastName,
-    String? nic,
-    DateTime? dateOfBirth,
-    Gender? gender,
-    String? mobile1,
-    String? mobile2,
-    String? email,
-    String? accountNo,
-    String? addressLine1,
-    String? addressLine2,
-    String? addressLine3,
-    DateTime? joinedDate,
-    DateTime? resignedDate,
-    String? epfNumber,
-    int? id,
-    int? designationId,
-  }) {
-    return Employee(
-      id: id ?? this.id,
-      designationId: designationId ?? this.designationId,
-      surename: surename ?? this.surename,
-      firstName: firstName ?? this.firstName,
-      lastName: lastName ?? this.lastName,
-      nic: nic ?? this.nic,
-      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
-      gender: gender ?? this.gender,
-      mobile1: mobile1 ?? this.mobile1,
-      mobile2: mobile2 ?? this.mobile2,
-      email: email ?? this.email,
-      accountNo: accountNo ?? this.accountNo,
-      addressLine1: addressLine1 ?? this.addressLine1,
-      addressLine2: addressLine2 ?? this.addressLine2,
-      addressLine3: addressLine3 ?? this.addressLine3,
-      joinedDate: joinedDate ?? this.joinedDate,
-      resignedDate: resignedDate ?? this.resignedDate,
-      epfNumber: epfNumber ?? this.epfNumber,
-    );
-  }
 }

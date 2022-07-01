@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payroll_system/features/department/presentation/blocs/departments_cubit/departments_cubit.dart';
 import 'package:payroll_system/features/department/presentation/blocs/designations_cubit/designations_cubit.dart';
+import 'package:payroll_system/features/employees/presentation/blocs/employee_page_controller/employee_page_controller_cubit.dart';
 import 'package:payroll_system/features/employees/presentation/blocs/employees_cubit/employees_cubit.dart';
+import 'package:payroll_system/features/epf/presentation/blocs/epf/epf_cubit.dart';
 import 'package:payroll_system/features/system/presentation/blocs/system_tab/system_tab_cubit.dart';
 import 'package:payroll_system/features/system/presentation/shared/system_enums.dart';
 
@@ -44,7 +46,9 @@ class TabButton extends StatelessWidget {
                     }
 
                     if (tab == SystemTab.employees) {
+                      context.read<EmployeePageControllerCubit>().changePAge(0);
                       context.read<EmployeesCubit>().loadEmployees();
+                      context.read<EpfCubit>().getEpfs();
                     }
                   },
                   hoverColor: Theme.of(context).colorScheme.primaryContainer,
@@ -162,11 +166,16 @@ class TabButton extends StatelessWidget {
                                 type: MaterialType.transparency,
                                 child: InkWell(
                                   onTap: () {
+                                    context.read<EpfCubit>().getEpfs();
+
                                     context
                                         .read<SystemTabCubit>()
                                         .onSecondaryTabChanged(
                                           SecondaryTab.epf,
                                         );
+                                    context
+                                        .read<EmployeePageControllerCubit>()
+                                        .changePAge(1);
                                   },
                                   hoverColor:
                                       Theme.of(context).colorScheme.secondary,

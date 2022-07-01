@@ -67,7 +67,7 @@ class EmployeeModel extends Employee {
       resignedDate: map['resigned_date'] != null
           ? DateTime.parse(map['resigned_date'])
           : null,
-      epfNumber: map['epf_id'] != null ? map['epf_id'] as String : null,
+      epfNumber: map['epf_id'] != null ? map['epf_id'] as int : null,
       url: map['url'] != null ? map['url'] as String : null,
     );
   }

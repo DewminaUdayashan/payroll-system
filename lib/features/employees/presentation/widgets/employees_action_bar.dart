@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:payroll_system/features/employees/presentation/blocs/employees_cubit/employees_cubit.dart';
 import 'package:payroll_system/features/employees/presentation/blocs/gender_radio/gender_radio_cubit.dart';
 
 import '../../shared/emp_enums.dart';
@@ -18,8 +19,9 @@ class EmployeesActionBar extends StatelessWidget {
         children: [
           SizedBox(
             width: MediaQuery.of(context).size.width / 5,
-            child: const TextField(
-              decoration: InputDecoration(
+            child: TextField(
+              onChanged: context.read<EmployeesCubit>().seachEmployee,
+              decoration: const InputDecoration(
                 labelText: 'Search Employees',
                 hintText: 'Search Employees',
                 suffixIcon: Icon(Icons.search),

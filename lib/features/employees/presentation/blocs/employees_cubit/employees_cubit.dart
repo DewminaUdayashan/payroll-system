@@ -5,6 +5,7 @@ import 'package:payroll_system/core/shared/notification_helper.dart';
 import 'package:payroll_system/features/employees/data/models/employee_model.dart';
 import 'package:payroll_system/features/employees/domain/entities/employee.dart';
 import 'package:payroll_system/features/employees/domain/usecases/employees.dart';
+import 'package:payroll_system/features/employees/shared/emp_enums.dart';
 
 import '../../../../../core/error/failure.dart';
 
@@ -14,10 +15,10 @@ class EmployeesCubit extends Cubit<EmployeesState> {
   EmployeesCubit(this._employees) : super(EmployeesLoading());
   final Employees _employees;
 
-  Future<void> loadEmployees() async {
+  Future<void> loadEmployees({EmployeeModel? filter}) async {
     emit(EmployeesLoading());
     try {
-      final results = await _employees(null);
+      final results = await _employees(filter);
       results.fold(
         (failure) {
           if (failure is FetchFaiure) {
@@ -83,5 +84,44 @@ class EmployeesCubit extends Cubit<EmployeesState> {
       fullName += ' ${employee.lastName!}';
     }
     return fullName;
+  }
+
+  void seachEmployee(String query) {
+    loadEmployees(
+      filter: EmployeeModel(
+          designationId: 0,
+          surename: query,
+          firstName: query,
+          nic: query,
+          dateOfBirth: DateTime.now(),
+          gender: Gender.male,
+          mobile1: '',
+          joinedDate: DateTime.now()),
+    );
+  }
+
+  String getEmployeeNameNicByID(int employeeId) {
+    String details = '';
+
+    if (state is EmployeesLoaded) {
+      final currentState = state as EmployeesLoaded;
+      final employee = currentState.employees
+          .firstWhere((element) => element.id == employeeId);
+      details += employee.firstName;
+      details += ' - ${employee.nic}';
+    }
+    return details;
+  }
+
+  String getEmployeeNameNicByEPFNo(int epfNo) {
+    String details = '';
+    if (state is EmployeesLoaded) {
+      final currentState = state as EmployeesLoaded;
+      final employee = currentState.employees
+          .firstWhere((element) => element.epfNumber == epfNo);
+      details += employee.firstName;
+      details += ' - ${employee.nic}';
+    }
+    return details;
   }
 }

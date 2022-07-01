@@ -4,7 +4,7 @@ const idFlex = 1;
 const nameFlex = 3;
 const departmentFlex = 1;
 const contactFlex = 3;
-const actionFlex = 1;
+const actionFlex = 2;
 
 class EmployeeDataTitleBar extends StatelessWidget {
   const EmployeeDataTitleBar({
@@ -14,24 +14,25 @@ class EmployeeDataTitleBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: const [
-        EmployeeListTitle(
+        ListTitle(
           name: 'ID',
           flex: idFlex,
         ),
-        EmployeeListTitle(
+        ListTitle(
           name: 'Name',
           flex: nameFlex,
         ),
-        EmployeeListTitle(
+        ListTitle(
           name: 'Department',
           flex: departmentFlex,
         ),
-        EmployeeListTitle(
+        ListTitle(
           name: 'Contact',
           flex: contactFlex,
         ),
-        EmployeeListTitle(
+        ListTitle(
           name: 'Actions',
           flex: actionFlex,
         ),
@@ -40,8 +41,8 @@ class EmployeeDataTitleBar extends StatelessWidget {
   }
 }
 
-class EmployeeListTitle extends StatelessWidget {
-  const EmployeeListTitle({
+class ListTitle extends StatelessWidget {
+  const ListTitle({
     required this.name,
     required this.flex,
     this.textAlign = TextAlign.center,
