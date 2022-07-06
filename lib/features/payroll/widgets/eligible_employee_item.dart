@@ -85,7 +85,8 @@ class _EligibleEmployeeItemState extends State<EligibleEmployeeItem> {
                                       context
                                           .read<EmployeesCubit>()
                                           .getDesignationIdForEmployeeId(
-                                              widget.emp.id),
+                                            widget.emp.id,
+                                          ),
                                     ),
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,

@@ -54,7 +54,7 @@ class _PayrollState extends State<Payroll> {
                 ),
                 const Spacer(),
                 SizedBox(
-                  width: 200,
+                  width: 250.w,
                   child: Row(
                     children: [
                       Text(
@@ -305,14 +305,14 @@ class _PayrollState extends State<Payroll> {
                                             snapshots.data!);
                                       }
                                       if (snapshots.hasError) {
-                                        print(snapshots.error);
                                         return Center(
                                           child: Text(
                                               'Error : ${snapshots.error}'),
                                         );
                                       }
                                       return const Center(
-                                          child: CircularProgressIndicator());
+                                        child: CircularProgressIndicator(),
+                                      );
                                     },
                                   );
                                 },

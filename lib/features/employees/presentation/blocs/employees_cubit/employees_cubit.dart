@@ -23,6 +23,7 @@ class EmployeesCubit extends Cubit<EmployeesState> {
       final results = await _employees(filter);
       results.fold(
         (failure) {
+          print(failure);
           if (failure is FetchFaiure) {
             emit(EmployeeError(message: failure.message));
           } else if (failure is ApiFailure) {
@@ -91,14 +92,15 @@ class EmployeesCubit extends Cubit<EmployeesState> {
   void seachEmployee(String query) {
     loadEmployees(
       filter: EmployeeModel(
-          designationId: 0,
-          surename: query,
-          firstName: query,
-          nic: query,
-          dateOfBirth: DateTime.now(),
-          gender: Gender.male,
-          mobile1: '',
-          joinedDate: DateTime.now()),
+        designationId: 0,
+        surename: query,
+        firstName: query,
+        nic: query,
+        dateOfBirth: DateTime.now(),
+        gender: Gender.male,
+        mobile1: '',
+        joinedDate: DateTime.now(),
+      ),
     );
   }
 

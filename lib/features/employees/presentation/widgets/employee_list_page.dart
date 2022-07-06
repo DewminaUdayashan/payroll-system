@@ -31,6 +31,15 @@ class EmployeeListPage extends StatelessWidget {
                 );
               }
               final currentState = state as EmployeesLoaded;
+              if (currentState.employees.isEmpty) {
+                return const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(40.0),
+                    child: Text(
+                        'There are no employees registered with the system yet..!'),
+                  ),
+                );
+              }
               return ListView.builder(
                 shrinkWrap: true,
                 itemCount: currentState.employees.length,

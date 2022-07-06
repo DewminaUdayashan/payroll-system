@@ -7,11 +7,13 @@ class PayrollGeneratorState extends Equatable {
     this.additions,
     this.selectedIndex,
     this.deductions,
+    this.payrollData,
   });
   final EligibleEmployee? eligibleEmployee;
   final List<Addition>? additions;
   final List<Addition>? deductions;
   final int? selectedIndex;
+  final PayrollData? payrollData;
 
   @override
   List<Object?> get props => [
@@ -22,20 +24,22 @@ class PayrollGeneratorState extends Equatable {
         selectedIndex,
       ];
 
+  @override
+  bool get stringify => true;
+
   PayrollGeneratorState copyWith({
     EligibleEmployee? eligibleEmployee,
     List<Addition>? additions,
     List<Addition>? deductions,
     int? selectedIndex,
+    PayrollData? payrollData,
   }) {
     return PayrollGeneratorState(
       eligibleEmployee: eligibleEmployee ?? this.eligibleEmployee,
       additions: additions ?? this.additions,
       deductions: deductions ?? this.deductions,
       selectedIndex: selectedIndex ?? this.selectedIndex,
+      payrollData: payrollData ?? this.payrollData,
     );
   }
-
-  @override
-  bool get stringify => true;
 }

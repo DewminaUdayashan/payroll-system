@@ -93,16 +93,18 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (deductions.isEmpty) ...[
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                          children: const [
-                            Icon(
-                              Icons.no_accounts,
-                              color: Colors.grey,
-                            ),
-                            Text('No any deduction set to the employee'),
-                          ],
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
+                            children: const [
+                              Icon(
+                                Icons.no_accounts,
+                                color: Colors.grey,
+                              ),
+                              Text('No any deduction set to the employee'),
+                            ],
+                          ),
                         ),
                       )
                     ] else
@@ -197,16 +199,18 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                         ),
                       ),
                     if (additions.isEmpty) ...[
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                          children: const [
-                            Icon(
-                              Icons.no_accounts,
-                              color: Colors.grey,
-                            ),
-                            Text('No any addition set to the employee'),
-                          ],
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
+                            children: const [
+                              Icon(
+                                Icons.no_accounts,
+                                color: Colors.grey,
+                              ),
+                              Text('No any addition set to the employee'),
+                            ],
+                          ),
                         ),
                       )
                     ] else

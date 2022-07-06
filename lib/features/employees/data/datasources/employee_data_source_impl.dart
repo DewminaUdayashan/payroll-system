@@ -20,8 +20,8 @@ class EmployeeDataSourceImpl extends EmployeeDataSource {
     }
     final decoded = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      final List<dynamic> data = decoded['data'];
-      final List<dynamic> addresses = decoded['addresses'];
+      final List<dynamic> data = decoded['data'] ?? [];
+      final List<dynamic> addresses = decoded['addresses'] ?? [];
       return data.map((e) {
         final model = EmployeeModel.fromMap(e);
         final addressLines = addresses
@@ -29,6 +29,7 @@ class EmployeeDataSourceImpl extends EmployeeDataSource {
             .toList()
             .reversed
             .toList();
+
         for (int i = 0; i < addressLines.length; i++) {
           switch (i) {
             case 0:

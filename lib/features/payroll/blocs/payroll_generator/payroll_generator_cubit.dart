@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:payroll_system/core/network/api.dart';
 import 'package:payroll_system/features/addition/domain/addition.dart';
 import 'package:payroll_system/features/payroll/entities/eligible_employee.dart';
+import 'package:payroll_system/features/payroll/entities/payroll_data.dart';
 
 part 'payroll_generator_state.dart';
 
@@ -69,5 +70,9 @@ class PayrollGeneratorCubit extends Cubit<PayrollGeneratorState> {
       eligibleEmployee: currentState.eligibleEmployee,
       selectedIndex: currentState.selectedIndex,
     ));
+  }
+
+  void setFinalData(PayrollData payrollData) {
+    emit(state.copyWith(payrollData: payrollData));
   }
 }

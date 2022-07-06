@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:payroll_system/core/network/api.dart';
 
 import '../../blocs/departments_cubit/departments_cubit.dart';
 import 'add_department_dialog.dart';
@@ -20,6 +23,8 @@ class DepartmentsList extends StatelessWidget {
           shrinkWrap: true,
           itemCount: currentState.departments.length,
           itemBuilder: (context, index) {
+            final department = currentState.departments[index];
+
             return MouseRegion(
               cursor: SystemMouseCursors.click,
               child: ListTile(
@@ -33,7 +38,7 @@ class DepartmentsList extends StatelessWidget {
                 title: Row(
                   children: [
                     Expanded(
-                      child: Text(currentState.departments[index].name),
+                      child: Text(department.name),
                     ),
                     const Expanded(
                       child: Text(
@@ -41,20 +46,16 @@ class DepartmentsList extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    const Expanded(
-                      child: Text(
-                        '0.0LKR',
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
+                    AVGText(department.id!),
                     Expanded(
                       child: IconButton(
                         onPressed: () {
                           showDialog(
-                              context: context,
-                              builder: (_) => AddDepartmentDialog(
-                                    department: currentState.departments[index],
-                                  ));
+                            context: context,
+                            builder: (_) => AddDepartmentDialog(
+                              department: department,
+                            ),
+                          );
                         },
                         padding: EdgeInsets.zero,
                         icon: const Icon(
@@ -65,13 +66,58 @@ class DepartmentsList extends StatelessWidget {
                     ),
                   ],
                 ),
-                subtitle:
-                    Text(currentState.departments[index].description ?? ''),
+                subtitle: Text(
+                  department.description ?? '',
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             );
           },
         )
       ],
+    );
+  }
+}
+
+class AVGText extends StatefulWidget {
+  const AVGText(this.departmentId, {Key? key}) : super(key: key);
+  final int departmentId;
+
+  @override
+  State<AVGText> createState() => _AVGTextState();
+}
+
+class _AVGTextState extends State<AVGText> {
+  String avg = '-';
+
+  @override
+  void initState() {
+    super.initState();
+    getAverageAllowanceForDepartment(widget.departmentId);
+  }
+
+  Future<void> getAverageAllowanceForDepartment(int departmentId) async {
+    final response = await API.get(endPoint: 'departments/avg/$departmentId');
+    if (response.statusCode == 200) {
+      final list = jsonDecode(response.body)['data'] as List<dynamic>;
+      if (list.isNotEmpty) {
+        avg = '${list.first['AVG_ALLOWANCE']}LKR';
+      }
+    } else {
+      avg = '-';
+    }
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Text(
+        avg,
+        textAlign: TextAlign.center,
+      ),
     );
   }
 }

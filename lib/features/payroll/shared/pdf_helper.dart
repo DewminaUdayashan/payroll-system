@@ -6,10 +6,13 @@ import 'package:path_provider/path_provider.dart';
 import 'package:payroll_system/core/cubit/settings/settings_cubit.dart';
 import 'package:payroll_system/features/addition/domain/addition.dart';
 import 'package:payroll_system/features/department/domain/entities/designation.dart';
+import 'package:payroll_system/features/login/presentation/blocs/bloc/session_bloc.dart';
 import 'package:payroll_system/features/payroll/blocs/payroll_generator/payroll_generator_cubit.dart';
 import 'package:payroll_system/features/payroll/entities/eligible_employee.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+
+import '../entities/payroll_data.dart';
 
 class PdfHelper {
   Future<File> generatePayrollPdf({
@@ -59,6 +62,22 @@ class PdfHelper {
       totalDeductions += deduct.amount;
     }
 
+    materialContext.read<PayrollGeneratorCubit>().setFinalData(
+          PayrollData(
+            netSalary: (((salary.basic + salary.allowance) + totalAdditions) -
+                totalDeductions),
+            year: DateTime.now().year,
+            month: month,
+            issuedTo: eligibleEmployee,
+            issuedBy:
+                (materialContext.read<SessionBloc>().state as SessionStarted)
+                    .systemUser
+                    .id,
+            epf: epfFromEmployee + epfFromCompany,
+            etf: etf,
+          ),
+        );
+
     pdf.addPage(
       pw.Page(
         margin: pw.EdgeInsets.zero,
@@ -84,6 +103,12 @@ class PdfHelper {
                   pw.SizedBox(height: 5),
                   pw.Text(
                     'Pay Advice',
+                    style: const pw.TextStyle(
+                      fontSize: 10,
+                    ),
+                  ),
+                  pw.Text(
+                    month,
                     style: const pw.TextStyle(
                       fontSize: 10,
                     ),
