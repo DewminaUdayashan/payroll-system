@@ -1,3 +1,5 @@
+import 'package:payroll_system/features/employees/shared/emp_enums.dart';
+
 import 'eligible_employee.dart';
 
 class PayrollData {
@@ -43,7 +45,7 @@ class PayrollData {
     return <String, dynamic>{
       'netSalary': netSalary,
       'year': year,
-      'month': month,
+      'month': month.toMonthInt,
       'issuedTo': issuedTo.toMap(),
       'issuedBy': issuedBy,
       'epf': epf,

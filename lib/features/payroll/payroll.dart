@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:payroll_system/core/cubit/payroll_refresh/payroll_refresh_cubit.dart';
+import 'package:payroll_system/core/shared/dialogs.dart';
+import 'package:payroll_system/core/shared/notification_helper.dart';
 import 'package:payroll_system/features/department/domain/entities/department.dart';
 import 'package:payroll_system/features/department/presentation/blocs/departments_cubit/departments_cubit.dart';
 import 'package:payroll_system/features/department/presentation/blocs/designations_cubit/designations_cubit.dart';
@@ -281,41 +283,92 @@ class _PayrollState extends State<Payroll> {
                                   ),
                                 );
                               }
+
                               final designation = context
                                   .read<DesignationsCubit>()
                                   .getDesignationById(context
                                       .read<EmployeesCubit>()
                                       .getDesignationIdForEmployeeId(
                                           state.eligibleEmployee?.id));
-                              return BlocConsumer<PayrollRefreshCubit,
-                                  PayrollRefreshState>(
-                                listener: (___, ____) => setState(() {}),
-                                builder: (__, _) {
-                                  return FutureBuilder<File>(
-                                    future: PdfHelper().generatePayrollPdf(
-                                      eligibleEmployee: state.eligibleEmployee!,
-                                      month: selectedMonth.toMonthName,
-                                      payrollState: state,
-                                      employeeDesignation: designation,
-                                      materialContext: context,
-                                    ),
-                                    builder: (context, snapshots) {
-                                      if (snapshots.hasData) {
-                                        return SfPdfViewer.file(
-                                            snapshots.data!);
-                                      }
-                                      if (snapshots.hasError) {
-                                        return Center(
-                                          child: Text(
-                                              'Error : ${snapshots.error}'),
-                                        );
-                                      }
-                                      return const Center(
-                                        child: CircularProgressIndicator(),
+                              return Stack(
+                                children: [
+                                  BlocConsumer<PayrollRefreshCubit,
+                                      PayrollRefreshState>(
+                                    listener: (___, ____) => setState(() {}),
+                                    builder: (__, _) {
+                                      return FutureBuilder<File>(
+                                        future: PdfHelper().generatePayrollPdf(
+                                          eligibleEmployee:
+                                              state.eligibleEmployee!,
+                                          month: selectedMonth.toMonthName,
+                                          payrollState: state,
+                                          employeeDesignation: designation,
+                                          materialContext: context,
+                                        ),
+                                        builder: (context, snapshots) {
+                                          if (snapshots.hasData) {
+                                            return SfPdfViewer.file(
+                                                snapshots.data!);
+                                          }
+                                          if (snapshots.hasError) {
+                                            return Center(
+                                              child: Text(
+                                                  'Error : ${snapshots.error}'),
+                                            );
+                                          }
+                                          return const Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        },
                                       );
                                     },
-                                  );
-                                },
+                                  ),
+                                  Positioned(
+                                    bottom: 20,
+                                    right: 20,
+                                    child: FloatingActionButton.extended(
+                                      onPressed: () => context
+                                          .read<PayrollGeneratorCubit>()
+                                          .finalizePayment(
+                                            onStart: () =>
+                                                showLoadingDialog(context),
+                                            onDone: () {
+                                              Navigator.pop(context);
+                                              if (selectedDepartment != null) {
+                                                context
+                                                    .read<
+                                                        PayrollEmployeesCubit>()
+                                                    .fetchEligibleEmployees(
+                                                      selectedDepartment!,
+                                                      selectedMonth,
+                                                    );
+                                              }
+                                              context
+                                                  .read<PayrollRefreshCubit>()
+                                                  .refresh();
+                                            },
+                                            successNotification: () {
+                                              NotificationHelper.success(
+                                                context: context,
+                                                title: 'Payment Succeeded..!',
+                                                subtitle:
+                                                    'Payment for ${state.eligibleEmployee?.firstName} for ${selectedMonth.toMonthName} has been successfully generated..!',
+                                              );
+                                            },
+                                          ),
+                                      label: const Text(
+                                        'Pay',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      icon: const Icon(Icons.payment_rounded,
+                                          color: Colors.white),
+                                      backgroundColor:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                                  ),
+                                ],
                               );
                             },
                           ),

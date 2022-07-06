@@ -12,6 +12,8 @@ part 'payroll_generator_state.dart';
 class PayrollGeneratorCubit extends Cubit<PayrollGeneratorState> {
   PayrollGeneratorCubit() : super(const PayrollGeneratorState());
 
+  PayrollData? payrollData;
+
   void onEmployeeSelected(bool? isExpanded, EligibleEmployee emp) {
     if (isExpanded != null && isExpanded) {
       emit(PayrollGeneratorState(eligibleEmployee: emp));
@@ -73,6 +75,25 @@ class PayrollGeneratorCubit extends Cubit<PayrollGeneratorState> {
   }
 
   void setFinalData(PayrollData payrollData) {
+    this.payrollData = payrollData;
     emit(state.copyWith(payrollData: payrollData));
+  }
+
+  Future<void> finalizePayment(
+      {required Function() onStart,
+      required Function() onDone,
+      Function? successNotification}) async {
+    onStart();
+    final response = await API.post(
+      endPoint: 'employees/pay',
+      data: payrollData?.toMap(),
+    );
+    if (response.statusCode == 200) {
+      onDone();
+      successNotification?.call();
+      emit(const PayrollGeneratorState());
+    } else {
+      onDone();
+    }
   }
 }

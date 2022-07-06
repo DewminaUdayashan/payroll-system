@@ -470,15 +470,31 @@ class PdfHelper {
                             child: pw.Text(
                               'Com Cont. EPF 12%',
                               textAlign: pw.TextAlign.left,
-                              style: pw.TextStyle(
-                                fontWeight: pw.FontWeight.bold,
-                              ),
                             ),
                           ),
                           pw.Padding(
                             padding: rowPadding,
                             child: pw.Text(
                               epfFromCompany.toStringAsFixed(2),
+                              textAlign: pw.TextAlign.right,
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      ///
+                      pw.TableRow(
+                        children: [
+                          pw.Padding(
+                            padding: rowPadding,
+                            child: pw.Text(
+                              'EPF 8%',
+                            ),
+                          ),
+                          pw.Padding(
+                            padding: rowPadding,
+                            child: pw.Text(
+                              (epfFromEmployee).toStringAsFixed(2),
                               textAlign: pw.TextAlign.right,
                             ),
                           ),
@@ -504,6 +520,9 @@ class PdfHelper {
                               (epfFromCompany + epfFromEmployee)
                                   .toStringAsFixed(2),
                               textAlign: pw.TextAlign.right,
+                              style: pw.TextStyle(
+                                fontWeight: pw.FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
@@ -527,6 +546,9 @@ class PdfHelper {
                             child: pw.Text(
                               (etf).toStringAsFixed(2),
                               textAlign: pw.TextAlign.right,
+                              style: pw.TextStyle(
+                                fontWeight: pw.FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
@@ -543,9 +565,6 @@ class PdfHelper {
                             child: pw.Text(
                               'EPF No.',
                               textAlign: pw.TextAlign.left,
-                              style: pw.TextStyle(
-                                fontWeight: pw.FontWeight.bold,
-                              ),
                             ),
                           ),
                           pw.Padding(
