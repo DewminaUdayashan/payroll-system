@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:payroll_system/features/department/presentation/blocs/designations_cubit/designations_cubit.dart';
-import 'package:payroll_system/features/employees/presentation/blocs/employee_page_controller/employee_page_controller_cubit.dart';
 import 'package:payroll_system/features/employees/presentation/blocs/employees_cubit/employees_cubit.dart';
+import 'package:payroll_system/features/employees/presentation/widgets/employee_list_item.dart';
 import 'package:payroll_system/features/employees/presentation/widgets/employees_title.dart';
-
-import '../../../addition/presentation/addition_dialog.dart';
-import 'employee_data_title_bar.dart';
 
 class EmployeeListPage extends StatelessWidget {
   const EmployeeListPage({
@@ -41,105 +36,7 @@ class EmployeeListPage extends StatelessWidget {
                 itemCount: currentState.employees.length,
                 itemBuilder: (context, index) {
                   final employee = currentState.employees[index];
-                  return MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    child: ListTile(
-                      enableFeedback: true,
-                      tileColor: index.isEven
-                          ? Theme.of(context).colorScheme.primaryContainer
-                          : null,
-                      onTap: () {},
-                      title: Row(
-                        children: [
-                          Expanded(
-                            flex: idFlex,
-                            child: Text(
-                              employee.id.toString(),
-                              textAlign: TextAlign.start,
-                            ),
-                          ),
-                          Expanded(
-                            flex: nameFlex,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(100)),
-                                  child: SizedBox(
-                                    width: 55.w,
-                                    height: 55.w,
-                                    child: Image.network(
-                                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMF7rNYRqdBhKmsTiW0pes2TrBJnzv7zqbjMp9W9J4cX4XK8jSeUmHBgHrgIt9AmANjxk&usqp=CAU',
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                Text(
-                                  context
-                                      .read<EmployeesCubit>()
-                                      .getFullName(employee),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            flex: departmentFlex,
-                            child: Text(
-                              context
-                                  .read<DesignationsCubit>()
-                                  .getDesignationNameById(
-                                      employee.designationId),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          Expanded(
-                            flex: contactFlex,
-                            child: Text(
-                              context
-                                  .read<EmployeesCubit>()
-                                  .getContactDetails(employee),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          Expanded(
-                            flex: actionFlex,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.edit),
-                                  tooltip: 'Edit',
-                                ),
-                                IconButton(
-                                  onPressed: () => showDialog(
-                                      context: context,
-                                      builder: (_) =>
-                                          AdditionDialog(employee: employee)),
-                                  icon: const Icon(Icons.add_box_rounded),
-                                  tooltip: 'Additions',
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    context
-                                        .read<EmployeePageControllerCubit>()
-                                        .changePAge(1, isDetailView: true);
-                                  },
-                                  icon: const Icon(Icons.arrow_forward_rounded),
-                                  tooltip: 'Details',
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
+                  return EmployeeListItem(employee, index);
                 },
               );
             },

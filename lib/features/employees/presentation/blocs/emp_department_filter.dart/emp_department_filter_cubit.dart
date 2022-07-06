@@ -9,6 +9,7 @@ class EmpDepartmentFilterCubit extends Cubit<EmpDepartmentFilterState> {
   EmpDepartmentFilterCubit() : super(const EmpDepartmentFilterState());
 
   void onDepartmentChanged(Department? value) {
+    print(value);
     emit(EmpDepartmentFilterState(department: value));
   }
 

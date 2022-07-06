@@ -43,8 +43,14 @@ class EmployeeRepositoryImpl extends EmployeeRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> updateEmployee(EmployeeModel employee) {
-    // TODO: implement updateEmployee
-    throw UnimplementedError();
+  Future<Either<Failure, bool>> updateEmployee(EmployeeModel employee) async {
+    try {
+      return Right(await _dataSource.updateEmployee(employee));
+    } on NotAuthorizedExecption {
+      return Left(AuthorizationFailure());
+    } catch (e, stack) {
+      return Left(
+          ApiFailure(code: 400, message: e.toString() + stack.toString()));
+    }
   }
 }

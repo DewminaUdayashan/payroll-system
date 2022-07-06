@@ -4,6 +4,8 @@ import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:payroll_system/core/cubit/payroll_refresh/payroll_refresh_cubit.dart';
+import 'package:payroll_system/core/cubit/settings/settings_cubit.dart';
 import 'package:payroll_system/core/network/api.dart';
 import 'package:payroll_system/features/addition/data/addition_data_source.dart';
 import 'package:payroll_system/features/addition/domain/addition_repository.dart';
@@ -32,6 +34,8 @@ import 'package:payroll_system/features/login/data/datasources/impl/login_data_s
 import 'package:payroll_system/features/login/data/repositories/login_repository_impl.dart';
 import 'package:payroll_system/features/login/domain/usecases/login.dart';
 import 'package:payroll_system/features/login/presentation/blocs/bloc/session_bloc.dart';
+import 'package:payroll_system/features/payroll/blocs/payroll_generator/payroll_generator_cubit.dart';
+import 'package:payroll_system/features/payroll/payroll_employees/payroll_employees_cubit.dart';
 import 'package:payroll_system/features/system/presentation/blocs/system_tab/system_tab_cubit.dart';
 
 import 'core/shared/app_router.dart';
@@ -103,8 +107,9 @@ class _MyAppState extends State<MyApp> {
                   ..getDesignations(),
               ),
               BlocProvider(
-                create: (context) => EmployeesCubit(Employees(
-                    EmployeeRepositoryImpl(EmployeeDataSourceImpl()))),
+                create: (context) => EmployeesCubit(
+                    Employees(EmployeeRepositoryImpl(EmployeeDataSourceImpl())))
+                  ..loadEmployees(),
               ),
               BlocProvider(
                 create: (context) =>
@@ -133,6 +138,18 @@ class _MyAppState extends State<MyApp> {
                 create: (context) => AdditionCubit(
                   AdditionRepository(AdditionDataSource()),
                 ),
+              ),
+              BlocProvider(
+                create: (context) => PayrollEmployeesCubit(),
+              ),
+              BlocProvider(
+                create: (context) => PayrollGeneratorCubit(),
+              ),
+              BlocProvider(
+                create: (context) => SettingsCubit(),
+              ),
+              BlocProvider(
+                create: (context) => PayrollRefreshCubit(),
               ),
             ],
             child: SystemInteractionListner(

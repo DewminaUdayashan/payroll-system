@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payroll_system/features/employees/presentation/blocs/employees_cubit/employees_cubit.dart';
-import 'package:payroll_system/features/employees/presentation/detail_view/employee_detail_view_panel.dart';
 import 'package:payroll_system/features/epf/presentation/blocs/epf/epf_cubit.dart';
 import 'package:payroll_system/features/epf/presentation/widgets/add_epf_section.dart';
 import 'package:payroll_system/features/epf/presentation/widgets/epf_title_bar.dart';
 
 class EPFPage extends StatefulWidget {
-  const EPFPage({Key? key, this.isDetailView = false}) : super(key: key);
-  final bool isDetailView;
+  const EPFPage({Key? key}) : super(key: key);
   @override
   State<EPFPage> createState() => _EPFPageState();
 }
@@ -17,9 +15,6 @@ class EPFPage extends StatefulWidget {
 class _EPFPageState extends State<EPFPage> {
   @override
   Widget build(BuildContext context) {
-    if (widget.isDetailView) {
-      return const EmployeeDetailViewPanel();
-    }
     return Row(
       children: [
         const Expanded(child: AddEPFSection()),
@@ -46,6 +41,9 @@ class _EPFPageState extends State<EPFPage> {
                           return const Center(child: Text('Error'));
                         }
                         final currentState = state as EpfLoaded;
+                        if (currentState.epfs.isEmpty) {
+                          return const Center(child: Text('No EPF'));
+                        }
                         return ListView.builder(
                           shrinkWrap: true,
                           itemCount: currentState.epfs.length,

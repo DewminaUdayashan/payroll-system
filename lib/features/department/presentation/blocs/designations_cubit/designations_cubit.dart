@@ -20,6 +20,7 @@ class DesignationsCubit extends Cubit<DesignationsState> {
   Future<void> getDesignations({
     Designation? designation,
   }) async {
+    designationsTmp.clear();
     emit(DesignationsLoading());
     try {
       final designations = await _designations(designation);
@@ -116,6 +117,15 @@ class DesignationsCubit extends Cubit<DesignationsState> {
           .name;
     } else {
       return '';
+    }
+  }
+
+  Designation? getDesignationById(int designationId) {
+    if (designationsTmp.isNotEmpty) {
+      return designationsTmp
+          .firstWhere((element) => element.id == designationId);
+    } else {
+      return null;
     }
   }
 }

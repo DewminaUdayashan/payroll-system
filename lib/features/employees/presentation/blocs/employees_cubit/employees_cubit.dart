@@ -5,9 +5,11 @@ import 'package:payroll_system/core/shared/notification_helper.dart';
 import 'package:payroll_system/features/employees/data/models/employee_model.dart';
 import 'package:payroll_system/features/employees/domain/entities/employee.dart';
 import 'package:payroll_system/features/employees/domain/usecases/employees.dart';
+import 'package:payroll_system/features/employees/presentation/blocs/employee_page_controller/employee_page_controller_cubit.dart';
 import 'package:payroll_system/features/employees/shared/emp_enums.dart';
 
 import '../../../../../core/error/failure.dart';
+import '../../../../../core/shared/dialogs.dart';
 
 part 'employees_state.dart';
 
@@ -117,11 +119,54 @@ class EmployeesCubit extends Cubit<EmployeesState> {
     String details = '';
     if (state is EmployeesLoaded) {
       final currentState = state as EmployeesLoaded;
+      if (currentState.employees.isEmpty) {
+        return details;
+      }
       final employee = currentState.employees
           .firstWhere((element) => element.epfNumber == epfNo);
       details += employee.firstName;
       details += ' - ${employee.nic}';
     }
     return details;
+  }
+
+  void updateEmployee(EmployeeModel employee, BuildContext context) async {
+    showLoadingDialog(context);
+    try {
+      final results = await _employees.updateEmployee(employee);
+      results.fold(
+        (failure) {
+          if (failure is AuthorizationFailure) {
+            NotificationHelper.error(
+                context: context, subtitle: 'Authorization failed');
+          } else if (failure is ApiFailure) {
+            NotificationHelper.error(
+                context: context, subtitle: failure.message);
+          } else {
+            NotificationHelper.error(context: context);
+          }
+          // Navigator.pop(context);
+        },
+        (updated) {
+          loadEmployees();
+          Navigator.pop(context);
+          NotificationHelper.success(
+              context: context, subtitle: 'Employee updated');
+          context.read<EmployeePageControllerCubit>().changePAge(0);
+          // Navigator.pop(context);
+        },
+      );
+    } catch (e) {
+      NotificationHelper.error(context: context, subtitle: e.toString());
+    }
+  }
+
+  int getDesignationIdForEmployeeId(int? id) {
+    return state is EmployeesLoaded
+        ? (state as EmployeesLoaded)
+            .employees
+            .firstWhere((element) => element.id == id)
+            .designationId
+        : 0;
   }
 }

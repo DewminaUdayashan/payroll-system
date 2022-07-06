@@ -7,4 +7,15 @@ abstract class AdditionState extends Equatable {
   List<Object> get props => [];
 }
 
-class AdditionInitial extends AdditionState {}
+class AdditionsLoading extends AdditionState {}
+
+class AdditionsError extends AdditionState {}
+
+class AdditionsLoaded extends AdditionState {
+  final List<Addition> additions;
+
+  const AdditionsLoaded({required this.additions});
+
+  @override
+  List<Object> get props => [additions];
+}

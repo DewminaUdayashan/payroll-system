@@ -24,6 +24,30 @@ class EmployeeModel extends Employee {
     super.url,
   });
 
+  Map<String, dynamic> toMapUpdate() {
+    return <String, dynamic>{
+      'id': id,
+      'designationId': designationId,
+      'surename': surename,
+      'firstName': firstName,
+      'lastName': lastName,
+      'nic': nic,
+      'dob': dateOfBirth.toString(),
+      'sex': gender.genderBool,
+      'mobile1': mobile1,
+      'mobile2': mobile2,
+      'email': email,
+      'accountNo': accountNo,
+      'address1': addressLine1,
+      'address2': addressLine2,
+      'address3': addressLine3,
+      'joinedDate': joinedDate.toString(),
+      'resignedDate': resignedDate,
+      'epf': epfNumber,
+      'url': url,
+    };
+  }
+
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'designationId': designationId,

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-enum SystemTab { dashboard, task, employees, departments }
+enum SystemTab { dashboard, payroll, employees, departments }
 
 enum SecondaryTab {
   designation,
@@ -37,8 +37,8 @@ extension SystemTabExtension on SystemTab {
     switch (this) {
       case SystemTab.dashboard:
         return 'Dashboard';
-      case SystemTab.task:
-        return 'Task';
+      case SystemTab.payroll:
+        return 'Payroll';
       case SystemTab.employees:
         return 'Employees';
       case SystemTab.departments:
@@ -52,8 +52,8 @@ extension SystemTabExtension on SystemTab {
     switch (this) {
       case SystemTab.dashboard:
         return Icons.dashboard;
-      case SystemTab.task:
-        return Icons.assignment;
+      case SystemTab.payroll:
+        return Icons.payment_rounded;
       case SystemTab.employees:
         return Icons.people;
       case SystemTab.departments:

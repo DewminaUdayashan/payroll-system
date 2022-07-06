@@ -17,4 +17,8 @@ class Employees extends UseCase<List<Employee>, EmployeeModel> {
   Future<Either<Failure, bool>> addEmployee(EmployeeModel employee) {
     return _repository.createEmployee(employee);
   }
+
+  Future<Either<Failure, bool>> updateEmployee(EmployeeModel employee) {
+    return _repository.updateEmployee(employee);
+  }
 }

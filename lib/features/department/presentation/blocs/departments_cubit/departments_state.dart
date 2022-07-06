@@ -7,7 +7,10 @@ abstract class DepartmentsState extends Equatable {
   List<Object> get props => [];
 }
 
-class DepartmentsLoading extends DepartmentsState {}
+class DepartmentsLoading extends DepartmentsState {
+  @override
+  List<Object> get props => [];
+}
 
 class DepartmentsLoaded extends DepartmentsState {
   final List<Department> departments;

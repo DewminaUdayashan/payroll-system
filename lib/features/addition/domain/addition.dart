@@ -1,7 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-class Addition {
+import 'package:equatable/equatable.dart';
+
+class Addition extends Equatable {
   final int? id;
   final int employeeId;
   final String name;
@@ -11,7 +13,8 @@ class Addition {
   final double amount;
   final bool isDeduction;
   final bool isActive;
-  final bool isMonthly;
+  bool isMonthly;
+  bool selectedForPayroll;
 
   Addition({
     this.id,
@@ -24,6 +27,7 @@ class Addition {
     required this.isDeduction,
     required this.isActive,
     required this.isMonthly,
+    this.selectedForPayroll = true,
   });
 
   Addition copyWith({
@@ -37,6 +41,7 @@ class Addition {
     bool? isDeduction,
     bool? isActive,
     bool? isMonthly,
+    bool? selectedForPayroll,
   }) {
     return Addition(
       id: id ?? this.id,
@@ -49,6 +54,7 @@ class Addition {
       isDeduction: isDeduction ?? this.isDeduction,
       isActive: isActive ?? this.isActive,
       isMonthly: isMonthly ?? this.isMonthly,
+      selectedForPayroll: selectedForPayroll ?? this.selectedForPayroll,
     );
   }
 
@@ -70,18 +76,17 @@ class Addition {
   factory Addition.fromMap(Map<String, dynamic> map) {
     return Addition(
       id: map['id'] != null ? map['id'] as int : null,
-      employeeId: map['employeeId'] as int,
+      employeeId: map['employee_id'] as int,
       name: map['name'] as String,
       description:
           map['description'] != null ? map['description'] as String : null,
-      startDate: DateTime.fromMillisecondsSinceEpoch(map['startDate'] as int),
-      endDate: map['endDate'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['endDate'] as int)
-          : null,
-      amount: map['amount'] as double,
-      isDeduction: map['isDeduction'] as bool,
-      isActive: map['isActive'] as bool,
-      isMonthly: map['isMonthly'] as bool,
+      startDate: DateTime.parse(map['start_date']),
+      endDate: map['end_date'] != null ? DateTime.parse(map['endDate']) : null,
+      amount: double.parse(map['amount'].toString()),
+      isDeduction: map['is_deduction'] as bool,
+      isActive: map['is_active'] as bool,
+      isMonthly: map['is_monthly'] as bool,
+      selectedForPayroll: true,
     );
   }
 
@@ -92,37 +97,21 @@ class Addition {
 
   @override
   String toString() {
-    return 'Addition(id: $id, employeeId: $employeeId, name: $name, description: $description, startDate: $startDate, endDate: $endDate, amount: $amount, isDeduction: $isDeduction, isActive: $isActive, isMonthly: $isMonthly)';
+    return 'Addition(selectedForPayroll: $selectedForPayroll id: $id, employeeId: $employeeId, name: $name, description: $description, startDate: $startDate, endDate: $endDate, amount: $amount, isDeduction: $isDeduction, isActive: $isActive, isMonthly: $isMonthly)';
   }
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is Addition &&
-        other.id == id &&
-        other.employeeId == employeeId &&
-        other.name == name &&
-        other.description == description &&
-        other.startDate == startDate &&
-        other.endDate == endDate &&
-        other.amount == amount &&
-        other.isDeduction == isDeduction &&
-        other.isActive == isActive &&
-        other.isMonthly == isMonthly;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^
-        employeeId.hashCode ^
-        name.hashCode ^
-        description.hashCode ^
-        startDate.hashCode ^
-        endDate.hashCode ^
-        amount.hashCode ^
-        isDeduction.hashCode ^
-        isActive.hashCode ^
-        isMonthly.hashCode;
-  }
+  List<Object?> get props => [
+        selectedForPayroll,
+        id,
+        employeeId,
+        name,
+        description,
+        startDate,
+        endDate,
+        amount,
+        isDeduction,
+        isActive,
+        isMonthly,
+      ];
 }

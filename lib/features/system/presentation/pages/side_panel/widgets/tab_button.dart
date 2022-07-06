@@ -40,12 +40,19 @@ class TabButton extends StatelessWidget {
                     if (tab == SystemTab.departments) {
                       /// fetch when the tab is clicked
                       context.read<DepartmentsCubit>().getDepartments();
+                      context.read<DesignationsCubit>().getDesignations();
                       context
                           .read<DepartmentPageControllerCubit>()
                           .animatePage(0);
                     }
 
                     if (tab == SystemTab.employees) {
+                      context.read<DepartmentsCubit>().getDepartments();
+                      context.read<DesignationsCubit>().getDesignations();
+                      context
+                          .read<DepartmentPageControllerCubit>()
+                          .animatePage(1);
+
                       context.read<EmployeePageControllerCubit>().changePAge(0);
                       context.read<EmployeesCubit>().loadEmployees();
                       context.read<EpfCubit>().getEpfs();
@@ -95,9 +102,6 @@ class TabButton extends StatelessWidget {
                                 child: InkWell(
                                   onTap: () {
                                     context
-                                        .read<DesignationsCubit>()
-                                        .getDesignations();
-                                    context
                                         .read<SystemTabCubit>()
                                         .onSecondaryTabChanged(
                                           SecondaryTab.designation,
@@ -105,6 +109,9 @@ class TabButton extends StatelessWidget {
                                     context
                                         .read<DepartmentPageControllerCubit>()
                                         .animatePage(1);
+                                    context
+                                        .read<DesignationsCubit>()
+                                        .getDesignations();
                                   },
                                   hoverColor:
                                       Theme.of(context).colorScheme.secondary,

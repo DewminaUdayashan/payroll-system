@@ -145,4 +145,13 @@ class DepartmentsCubit extends Cubit<DepartmentsState> {
       return 'UNKNOWN ERROR';
     }
   }
+
+  Department? getDepartmentById(int? departmentId) {
+    try {
+      print(departmentsTmp.firstWhere((element) => element.id == departmentId));
+      return departmentsTmp.firstWhere((element) => element.id == departmentId);
+    } catch (e) {
+      return null;
+    }
+  }
 }

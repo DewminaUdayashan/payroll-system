@@ -15,4 +15,12 @@ class AdditionRepository {
       return Left(ApiFailure(code: 0, message: e.toString()));
     }
   }
+
+  Future<Either<Failure, List<Addition>>> getAdditions(int employeeId) async {
+    try {
+      return Right(await _dataSource.getAddditions(employeeId));
+    } catch (e) {
+      return Left(ApiFailure(code: 0, message: e.toString()));
+    }
+  }
 }

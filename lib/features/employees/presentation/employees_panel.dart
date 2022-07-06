@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:payroll_system/features/employees/presentation/blocs/employee_page_controller/employee_page_controller_cubit.dart';
+import 'package:payroll_system/features/employees/presentation/detail_view/employee_details_view.dart';
+import 'package:payroll_system/features/employees/presentation/detail_view/employee_edit_view_panel.dart';
 import 'package:payroll_system/features/employees/presentation/widgets/employee_list_page.dart';
 import 'package:payroll_system/features/epf/presentation/epf_page.dart';
 
@@ -44,7 +46,13 @@ class _EmployeesPanelState extends State<EmployeesPanel> {
               if (index == 0) {
                 return const EmployeeListPage();
               } else {
-                return EPFPage(isDetailView: state.isDetailView);
+                if (state.isDetailView) {
+                  return const EmployeeDetailsView();
+                } else if (state.isEdit) {
+                  return const EmployeeEditView();
+                } else {
+                  return const EPFPage();
+                }
               }
             });
       },
